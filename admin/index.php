@@ -39,7 +39,6 @@
 		include("MLB.php");
 		include("NFL.php");
 		include("AddActualScores.php");
-		include("record.php");
 		$conn->close();
 	}
 ?>

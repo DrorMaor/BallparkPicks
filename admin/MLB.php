@@ -1,6 +1,6 @@
 <div>
 	<form action="" method="post" name="frmPick">
-		<input type="text" name="PickDate" value="<?php echo date("Y-m-d"); ?>"> &nbsp;
+		<input style="width:100px;" type="text" name="PickDate" value="<?php echo date("Y-m-d"); ?>"> &nbsp;
 		<input type="submit" value="Generate MLB Picks" name="submitMLBpicks">
 	</form>
 
@@ -200,11 +200,11 @@
 	if (isset($_POST['submitMLBpicks']))
 	{
 		// get stats of all teams
-		$fullData = shell_exec("python ../py/MLB.py");
+		$fullData = shell_exec("python py/MLB.py");
 		$fullData = str_replace("{", "", $fullData);
 		$teams = [];
 		$stats = explode("}", $fullData);
-		
+
 		foreach ($stats as $stat)
 		{
 			$statsExplode = explode(", ", $stat);
@@ -221,7 +221,7 @@
 						case "team":
 							$team->team = $val;
 							break;
-							
+
 						// batting
 						case "b_RSPG":
 							$team->b_RSPG = $val;

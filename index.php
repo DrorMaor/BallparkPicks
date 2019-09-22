@@ -105,11 +105,14 @@
 				$counter = 0;
 				$HTML .= "<tr> ";
 			}
-			$HTML .= "<td class='game'>";
-			$GameOverClass = "";
+			$GameOverStyle = "";
 			if ($game["league"] == "NFL" && $game["HomeScoreActual"] !="" && $game["AwayScoreActual"] !="")
-				$GameOverClass = " background-color:#dbdbdb;";
-			$HTML .= "<table style='width:100%;$GameOverClass'>";
+				$GameOverStyle = " background-color:#dbdbdb;";
+			$GameTodayStyle = "";
+			if ($game["league"] == "NFL" && $game["GameDate"] == date("Y-m-d") )
+				$GameTodayStyle = " border: 2px gray solid;";
+			$HTML .= "<td class='game' style='" . $GameOverStyle . $GameTodayStyle."'>";
+			$HTML .= "<table style='width:100%;'>";
 			$HTML .= "<tr>";
 			$HTML .= "	<td> <img class='logo' src='logos/".$game['league']."/".$game["AwayTeam"].".png'></td>";
 			$HTML .= "	<td class='".$awayClass."'> ".trim($game["AwayTeamName"])."</td>";

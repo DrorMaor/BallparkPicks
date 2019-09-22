@@ -1,6 +1,7 @@
 <form action="" method="post" name="frmShowGamesByDate">
-	<input type="text" name="ActualDate" 
-		value="<?php echo date("Y-m-d", strtotime("-1 days")) ?>">	&nbsp;
+	<input type="text" name="ActualDate" style="width:100px;"
+		value="<?php echo date("Y-m-d", strtotime("-1 days")) ?>"> &nbsp;
+	<input type="checkbox" name="MissedGames" value="MissedGames">All Missed Games &nbsp;
 	<input type="submit" value="Show Games By Date" name="submitShowGamesByDate">
 </form>
 <style>
@@ -20,10 +21,21 @@
 	{
 		?>
 		<form action="" method="post" name="frmAddActualScores">
-			<?php echo $_POST['ActualDate']; ?>
-			<table>
+			<?php 
+				// if we show all the missed games, we want to put each date there separately
+				$MissedGames = 0;
+				if(isset($_POST['MissedGames']) && $_POST['MissedGames'] == 'MissedGames')
+					$MissedGames = 1;
+				else
+					echo "<strong>".$_POST['ActualDate']."</strong>";
+			?>
+			<table border="1">
 				<tr>
 					<th>id</th>
+					<?php
+						if ($MissedGames == 1) 
+							echo "<th>date</th>";
+					?>
 					<th>league</th>
 					<th>Away</th>
 					<th>Home</th>
@@ -31,8 +43,12 @@
 					<th>Score</th>
 				</tr>
 			<?php
-			$sql = "select * from games
-				where GameDate = '".$_POST['ActualDate']."'
+			$sql = "select * from games ";
+			if ($MissedGames == 1)
+				$sql .= "where GameDate < curdate() ";
+			else
+				$sql .= "where GameDate = '".$_POST['ActualDate']."' ";
+			$sql .= "
 				and AwayScoreActual is null and HomeScoreActual is null
 				order by league ; ";
 			$results = $conn->query($sql);
@@ -43,9 +59,11 @@
 				$homeTeam = $row["HomeTeam"];
 				echo "<tr>";
 				echo "<td class='td'>" . $row["id"] . "</td>";
+				if ($MissedGames == 1)
+					echo "<td class='td'>" . $row["GameDate"] . "</td>";
 				echo "<td class='td'>" . $league . "</td>";
-				echo "<td class='td'> <img style='height:25px;' src='/logos/".$league."/".$awayTeam.".png'> &nbsp;".$awayTeam."</td>";
-                                echo "<td class='td'> <img style='height:25px;' src='/logos/".$league."/".$homeTeam.".png'> &nbsp;".$homeTeam."</td>";
+				echo "<td class='td'> <img style='height:25px;' src='/logos/".$league."/".$awayTeam.".png'> &nbsp;".$awayTeam." (".$row["AwayScorePick"].")</td>";
+                                echo "<td class='td'> <img style='height:25px;' src='/logos/".$league."/".$homeTeam.".png'> &nbsp;".$homeTeam." (".$row["HomeScorePick"].")</td>";
 				echo "<td class='td'><input class='score' name='away_".$row["id"]."' type='text'" . $row["AwayScoreActual"] . "></td>";
 				echo "<td class='td'><input class='score' name='home_".$row["id"]."' type='text'" . $row["HomeScoreActual"] . "></td>";
 				echo "</tr>";

@@ -157,7 +157,7 @@
 	if (isset($_POST['submitNFLpicks']))
 	{
 		// get stats of all teams
-		$fullData = shell_exec("python ../py/NFL.py");
+		$fullData = shell_exec("python py/NFL.py");
 		$fullData = str_replace("{", "", $fullData);
 		$teams = [];
 		$stats = explode("}", $fullData);

@@ -1,4 +1,4 @@
-<div style="text-decoration: underline; maring:px;">Our Record</div>
+<div style="text-decoration: underline; margin:5px;">Our Record</div>
 <?php
 	$leagues = array("NFL", "MLB", "NHL", "NBA");
 	foreach ($leagues as $league)
