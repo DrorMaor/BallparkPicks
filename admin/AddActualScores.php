@@ -50,7 +50,7 @@
 				$sql .= "where GameDate = '".$_POST['ActualDate']."' ";
 			$sql .= "
 				and AwayScoreActual is null and HomeScoreActual is null
-				order by league ; ";
+				order by league, AwayTeam ; ";
 			$results = $conn->query($sql);
 			while ($row = $results->fetch_assoc())
 			{
