@@ -106,10 +106,10 @@
 				$HTML .= "<tr> ";
 			}
 			$GameOverStyle = "";
-			if ($game["league"] == "NFL" && $game["HomeScoreActual"] !="" && $game["AwayScoreActual"] !="")
+			if ($game["league"] == "NFL" && $game["HomeScoreActual"] != "" && $game["AwayScoreActual"] != "")
 				$GameOverStyle = " background-color:#dbdbdb;";
 			$GameTodayStyle = "";
-			if ($game["league"] == "NFL" && $game["GameDate"] == date("Y-m-d") )
+			if ($game["league"] == "NFL" && $game["GameDate"] == date("Y-m-d") && $game["HomeScoreActual"] == "" && $game["AwayScoreActual"] == "")
 				$GameTodayStyle = " border: 2px gray solid;";
 			$HTML .= "<td class='game' style='" . $GameOverStyle . $GameTodayStyle."'>";
 			$HTML .= "<table style='width:100%;'>";
