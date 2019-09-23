@@ -32,9 +32,9 @@ index = 0
 # go thru the entire stats, and reset for each new team
 team = ""
 for stat in AllStats:
-	if stat in MLB_TeamsDict:
+	if stat in TeamsDict:
 		index = 0
-		team = AllStats[StatCounter]
+		team = TeamsDict[AllStats[StatCounter]]
 	if index == 7:  W = AllStats[StatCounter]
 	if index == 11: L = AllStats[StatCounter]
 	if index == 13: P = AllStats[StatCounter]

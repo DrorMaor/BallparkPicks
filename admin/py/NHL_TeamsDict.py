@@ -1,4 +1,4 @@
-MLB_TeamsDict =	{
+TeamsDict =	{
 	"Anaheim Ducks": "ANA",
 	"Arizona Coyotes": "ARI",
 	"Boston Bruins": "BOS",
