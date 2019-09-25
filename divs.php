@@ -1,7 +1,7 @@
 <div id="divAbout" class="divs">
 	<div id="CloseAbout" class="button close">x</div>
 	<p>
-		"Ballpark Picks" was originally supposed to be just for baseball, and it's name is a takeoff of "Ballpark Franks". Later on we decided to add football, basketball and hockey to the site, but the name stuck.
+		"Ballpark Picks" was originally supposed to be just for baseball, and its name is a takeoff of "Ballpark Franks". Later on we decided to add football, basketball and hockey to the site, but the name stuck.
 		<br>
 		Yes, we realize that only baseball is played at a ballpark, while football is played at a stadium, and basketball and hockey are played at arenas.
 	</p>

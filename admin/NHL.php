@@ -26,7 +26,7 @@
 
 	function Get_NHL_Grade($team)
 	{
-		$grade =  $team->W * 10;
+		$grade = $team->W * 10;
 		$grade -= $team->L * 10;
 		$grade += $team->P;
 		$grade += $team->G * 3;
@@ -37,6 +37,9 @@
 	function Get_NHL_Score ($team)
 	{
 		// average goals per game
+$team->G = rand(150,250);
+$team->W = rand (10,82);
+$team->L = 82-$team->W;
 		$goals = ceil( $team->G / ($team->W + $team->L) );
 		$goals += rand(-$goals, $goals);
 		return $goals;
@@ -53,9 +56,9 @@
 		foreach ($stats as $stat)
 		{
 			$statsExplode = explode(", ", $stat);
-			if (sizeof($statsExplode) == 31)
+			if (sizeof($statsExplode) == 6)
 			{
-				$team = new NFL_TeamData("", "", "", "", "");
+				$team = new NHL_TeamData("", "", "", "", "", "");
 				foreach ($statsExplode as $statsEach)
 				{
 					$statsEachSplit = explode(":", $statsEach);

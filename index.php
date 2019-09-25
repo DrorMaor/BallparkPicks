@@ -79,60 +79,63 @@
 	function drawGameHTML($conn, $GamesSQL, $title)
 	{
 		$games = $conn->query($GamesSQL);
-		$counter = 0;
-		$HTML = "<table> ";
-		$HTML .= "<tr><td colspan='4' style='text-align:center;'>".$title."</td></tr>";
-		while ($game = $games->fetch_assoc())
+		if ($games->num_rows > 0)
 		{
-			if ($game["AwayScorePick"] > $game["HomeScorePick"])
+			$counter = 0;
+			$HTML = "<table> ";
+			$HTML .= "<tr><td colspan='4' style='text-align:center;'>".$title."</td></tr>";
+			while ($game = $games->fetch_assoc())
 			{
-				$awayClass = "team winner";
-				$homeClass = "team";
-			}
-			elseif ($game["HomeScorePick"] > $game["AwayScorePick"])
-			{
-				$homeClass = "team winner";
-				$awayClass = "team";
-			}
-			else
-			{
-				$homeClass= "team";
-				$awayClass= "team";
-			}
+				if ($game["AwayScorePick"] > $game["HomeScorePick"])
+				{
+					$awayClass = "team winner";
+					$homeClass = "team";
+				}
+				elseif ($game["HomeScorePick"] > $game["AwayScorePick"])
+				{
+					$homeClass = "team winner";
+					$awayClass = "team";
+				}
+				else
+				{
+					$homeClass= "team";
+					$awayClass= "team";
+				}
 
-			if ($counter % 4 == 0 && $counter > 0)
-			{
-				$counter = 0;
-				$HTML .= "<tr> ";
+				if ($counter % 4 == 0 && $counter > 0)
+				{
+					$counter = 0;
+					$HTML .= "<tr> ";
+				}
+				$GameOverStyle = "";
+				if ($game["league"] == "NFL" && $game["HomeScoreActual"] != "" && $game["AwayScoreActual"] != "")
+					$GameOverStyle = " background-color:#dbdbdb;";
+				$GameTodayStyle = "";
+				if ($game["league"] == "NFL" && $game["GameDate"] == date("Y-m-d") && $game["HomeScoreActual"] == "" && $game["AwayScoreActual"] == "")
+					$GameTodayStyle = " border: 2px gray solid;";
+				$HTML .= "<td class='game' style='" . $GameOverStyle . $GameTodayStyle."'>";
+				$HTML .= "<table style='width:100%;'>";
+				$HTML .= "<tr>";
+				$HTML .= "	<td> <img class='logo' src='logos/".$game['league']."/".$game["AwayTeam"].".png'></td>";
+				$HTML .= "	<td class='".$awayClass."'> ".trim($game["AwayTeamName"])."</td>";
+				$HTML .= "	<td>&nbsp;</td>";
+				$HTML .= "	<td class='".$awayClass." score'>".$game["AwayScorePick"];
+				$HTML .= "</tr>";
+				$HTML .= "<tr>";
+				$HTML .= "	<td> <img class='logo' src='logos/".$game['league']."/".$game["HomeTeam"].".png'></td>";
+				$HTML .= "	<td class='".$homeClass."'> ".trim($game["HomeTeamName"])."</td>";
+				$HTML .= "	<td>&nbsp;</td>";
+				$HTML .= "	<td class='".$homeClass." score'>".$game["HomeScorePick"]."</td>";
+				$HTML .= "</tr>";
+				$HTML .= "</table>";
+				$HTML .= "</td>";
+				if ($counter % 5 == 0 && $counter > 1)
+					$HTML .= "</tr> ";
+				$counter++;
 			}
-			$GameOverStyle = "";
-			if ($game["league"] == "NFL" && $game["HomeScoreActual"] != "" && $game["AwayScoreActual"] != "")
-				$GameOverStyle = " background-color:#dbdbdb;";
-			$GameTodayStyle = "";
-			if ($game["league"] == "NFL" && $game["GameDate"] == date("Y-m-d") && $game["HomeScoreActual"] == "" && $game["AwayScoreActual"] == "")
-				$GameTodayStyle = " border: 2px gray solid;";
-			$HTML .= "<td class='game' style='" . $GameOverStyle . $GameTodayStyle."'>";
-			$HTML .= "<table style='width:100%;'>";
-			$HTML .= "<tr>";
-			$HTML .= "	<td> <img class='logo' src='logos/".$game['league']."/".$game["AwayTeam"].".png'></td>";
-			$HTML .= "	<td class='".$awayClass."'> ".trim($game["AwayTeamName"])."</td>";
-			$HTML .= "	<td>&nbsp;</td>";
-			$HTML .= "	<td class='".$awayClass." score'>".$game["AwayScorePick"];
-			$HTML .= "</tr>";
-			$HTML .= "<tr>";
-			$HTML .= "	<td> <img class='logo' src='logos/".$game['league']."/".$game["HomeTeam"].".png'></td>";
-			$HTML .= "	<td class='".$homeClass."'> ".trim($game["HomeTeamName"])."</td>";
-			$HTML .= "	<td>&nbsp;</td>";
-			$HTML .= "	<td class='".$homeClass." score'>".$game["HomeScorePick"]."</td>";
-			$HTML .= "</tr>";
-			$HTML .= "</table>";
-			$HTML .= "</td>";
-			if ($counter % 5 == 0 && $counter > 1)
-				$HTML .= "</tr> ";
-			$counter++;
+			$HTML .= "</table> <br>";
+			echo $HTML;
 		}
-		$HTML .= "</table> <br>";
-		echo $HTML;
 	}
 
 ?>

@@ -29,17 +29,17 @@ $(document).ready(function(){
         });
 
     $('#btnAbout').click(function(){
-        $("#divAbout").show();
-        $("#divContact").hide();
+	$("#divContact").hide();
+        $("#divAbout").fadeIn(333);
     });
     $('#btnContact').click(function(){
-        $("#divContact").show();
-        $("#divAbout").hide();
+	$("#divAbout").hide();
+        $("#divContact").fadeIn(333);
     });
     $('#CloseAbout').click(function(){
-        $("#divAbout").hide();
+        $("#divAbout").fadeOut(333);
     });
     $('#CloseContact').click(function(){
-        $("#divContact").hide();
+        $("#divContact").fadeOut(333);
     });
 });
