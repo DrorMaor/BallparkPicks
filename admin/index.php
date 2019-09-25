@@ -30,13 +30,13 @@
 				<input type="text" name="user" > <br>
 				<input type="password" name="pwd" > <br>
 				<input type="submit" value="Login" name="submitLogin">
-			</form>	
+			</form>
 		<?php
 	}
 	else
 	{
-		// GENERATE MLB PICKS -->
 		include("MLB.php");
+		include("NHL.php");
 		include("NFL.php");
 		include("AddActualScores.php");
 		$conn->close();
