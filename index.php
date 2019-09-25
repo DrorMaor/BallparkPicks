@@ -61,13 +61,19 @@
 	drawGameHTML($conn, $GamesSQL, $title);
 
 
-	// MLB
-	$GamesSQL = "select g.*, away.name as AwayTeamName, home.name as HomeTeamName
-		from games g
-			inner join teams away on away.code = g.AwayTeam and away.league = 'MLB'
-			inner join teams home on home.code = g.HomeTeam and home.league = 'MLB'
-		where g.GameDate = curdate() and g.league = 'MLB'; ";
-	drawGameHTML($conn, $GamesSQL, "<div class='heading'>MLB</div>");
+
+	// other leagues (with standard daily schedule)
+	$leagues = array("MLB", "NBA", "NHL");
+	foreach ($leagues as $league)
+	{
+		$GamesSQL = "select g.*, away.name as AwayTeamName, home.name as HomeTeamName
+			from games g
+				inner join teams away on away.code = g.AwayTeam and away.league = '$league'
+				inner join teams home on home.code = g.HomeTeam and home.league = '$league'
+			where g.GameDate = curdate() and g.league = '$league'; ";
+		drawGameHTML($conn, $GamesSQL, "<div class='heading'>$league</div>");
+	}
+
 
 
 	$conn->close();
