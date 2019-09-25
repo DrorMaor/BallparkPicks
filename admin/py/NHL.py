@@ -25,7 +25,7 @@ tableData = page[page.find("<tbody>")+1:page.find("</tbody>")]
 soup = BeautifulSoup(tableData, 'lxml')
 rows = soup.findAll("tr")
 AllStats = re.findall(">(.*?)<", str(rows), flags=0)
-
+#print (AllStats)
 
 StatCounter = 0
 index = 0
@@ -35,9 +35,9 @@ for stat in AllStats:
 	if stat in TeamsDict:
 		index = 0
 		team = TeamsDict[AllStats[StatCounter]]
-	if index == 7:  W = AllStats[StatCounter]
-	if index == 11: L = AllStats[StatCounter]
-	if index == 13: P = AllStats[StatCounter]
+	if index == 5:  W = AllStats[StatCounter]
+	if index == 7: L = AllStats[StatCounter]
+	if index == 11: P = AllStats[StatCounter]
 	if index == 15: G = AllStats[StatCounter]
 	if index == 17: 
 		GA = AllStats[StatCounter]
