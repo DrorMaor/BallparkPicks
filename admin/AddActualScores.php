@@ -1,5 +1,5 @@
 <form action="" method="post" name="frmShowGamesByDate">
-	<input type="text" name="ActualDate" style="width:100px;"
+	<input type="text" name="ActualDate" style="width:100px;" class="datepicker"
 		value="<?php echo date("Y-m-d", strtotime("-1 days")) ?>"> &nbsp;
 	<input type="checkbox" name="MissedGames" value="MissedGames">All Missed Games &nbsp;
 	<input type="submit" value="Show Games By Date" name="submitShowGamesByDate">

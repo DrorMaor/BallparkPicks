@@ -1,6 +1,6 @@
 <div>
 	<form action="" method="post" name="frmPick">
-		<input style="width:100px;" type="text" name="PickDate" value="<?php echo date("Y-m-d"); ?>"> &nbsp;
+		<input class="datepicker" style="width:100px;" type="text" name="PickDate" value="<?php echo date("Y-m-d"); ?>"> &nbsp;
 		<input type="submit" value="Generate NHL Picks" name="submitNHLpicks">
 	</form>
 

@@ -9,12 +9,22 @@
 
 <html>
 	<head>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	</head>
+	<script>
+		$(function(){
+			$(".datepicker").datepicker({
+				dateFormat: "yy-mm-dd"
+				});
+			});
+	</script>
 	<body>
-
 <?php
+	echo "<b>Today is " . date("Y-m-d") . "</b> <br> </br>";
 	include "../DbConn.php";
+
 	if (isset($_POST["submitLogin"]))
 	{
 		$sql = "select count(*) as loggedIn from users where user = '" . $_POST["user"] . "' and pwd = md5('" . $_POST["pwd"] . "');";
@@ -39,8 +49,9 @@
 		include("NHL.php");
 		include("NFL.php");
 		include("AddActualScores.php");
-		$conn->close();
 	}
+
+	$conn->close();
 ?>
 
 </body>
