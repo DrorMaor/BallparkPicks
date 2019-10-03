@@ -79,7 +79,7 @@ $team->L = 82-$team->W;
 							$team->P = $val;
 							break;
 						case "G":
-							$team->H = $val;
+							$team->G = $val;
 							break;
 						case "GA":
 							$team->GA = $val;
@@ -120,15 +120,22 @@ $team->L = 82-$team->W;
 				}
 				if ($awayTeamFound == 1 && $homeTeamFound == 1)
 				{
+					if ($awayScore == $homeScore)
+					{
+						if ($awayGrade > $homeGrade)
+							$awayScore ++;
+						else
+							$homeScore ++;
+					}
 					$sql = " update games set AwayScorePick = ".$awayScore.", HomeScorePick = ".$homeScore;
-					$sql.= " where id = ".$row['id'];
-					$sql.= " and AwayScorePick is null and HomeScorePick is null ;  ";
+					$sql.= " where id = ".$row['id'] . "; ";
+					//$sql.= " and AwayScorePick is null and HomeScorePick is null ;  ";
 					$update_multi_sql .= $sql;
 					break;
 				}
 			}
 		}
-		//$conn->multi_query($update_multi_sql);
+		$conn->multi_query($update_multi_sql);
 		echo "These NHL games have been updated:</br>";
 		echo str_replace(';', ';</br>', $update_multi_sql);
 	}
