@@ -1,3 +1,5 @@
+<div>
+
 <form action="" method="post" name="frmShowGamesByDate">
 	<input type="text" name="ActualDate" style="width:100px;" class="datepicker"
 		value="<?php echo date("Y-m-d", strtotime("-1 days")) ?>"> &nbsp;
@@ -113,3 +115,6 @@
 		$conn->multi_query($multi_sql);
 	}
 ?>
+
+</div>
+<hr>

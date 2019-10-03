@@ -49,6 +49,7 @@
 		include("NHL.php");
 		include("NFL.php");
 		include("AddActualScores.php");
+		include("AddGame.php");
 	}
 
 	$conn->close();

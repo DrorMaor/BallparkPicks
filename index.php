@@ -32,7 +32,7 @@
 					<div id="btnExport" class="button">Export</div>
 				</td>
 				<td id="tdRecord">
-					<?php include "record.php"; ?>
+					<?php // include "record.php"; ?>
 				</td>
 			</tr>
 		</table>
