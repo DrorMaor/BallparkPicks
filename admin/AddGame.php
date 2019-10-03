@@ -1,16 +1,17 @@
 <div>
 	<form action="" method="post" name="frmAddGame">
 		<select name="league">
-			<option value="NFL">NFL</option>
-			<option value="MLB">MLB</option>
-			<option value="NBA">NBA</option>
-			<option value="NHL">NHL</option>
+			<?php
+				$results = $conn->query("select * from terms where type='league' order by id;");
+				while ($row = $results->fetch_assoc())
+					echo "<option value='".$row["code"]."'>".$row["code"]."</option>";
+			?>
 		</select>
 		<select name="AwayTeam">
 			<?php
 				$results = $conn->query("select * from teams order by league, city;");
 				while ($row = $results->fetch_assoc())
-					echo "<option value='".$row["code"]."'>".$row["city"]." ".$row["name"]."</option>";
+					echo "<option value='(".$row["league"]") ".$row["code"]."'>".$row["city"]." ".$row["name"]."</option>";
 			?>
 		</select>
 		@
@@ -18,7 +19,7 @@
 			<?php
 				$results = $conn->query("select * from teams order by league, city;");
 				while ($row = $results->fetch_assoc())
-					echo "<option value='".$row["code"]."'>".$row["city"]." ".$row["name"]."</option>";
+					echo "<option value='(".$row["league"]") .$row["code"]."'>".$row["city"]." ".$row["name"]."</option>";
 			?>
 		</select>
 		<input class="datepicker" style="width:100px;" type="text" name="GameDate" value="<?php echo date("Y-m-d"); ?>"> &nbsp;
