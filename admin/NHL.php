@@ -37,10 +37,10 @@
 	function Get_NHL_Score ($team)
 	{
 		// average goals per game
-$team->G = rand(150,250);
-$team->W = rand (10,82);
-$team->L = 82-$team->W;
-		$goals = ceil( $team->G / ($team->W + $team->L) );
+		$games = $team->W + $team->L;
+		if ($games == 0)
+			$games = 1;
+		$goals = ceil($team->G / $games);
 		$goals += rand(-$goals, $goals);
 		return $goals;
 	}
