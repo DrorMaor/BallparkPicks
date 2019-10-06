@@ -1,5 +1,7 @@
 
 <?php
+	Get_NHL_Picks($conn);
+
 	class NHL_TeamData {
 		public $team;
 		public $W;
@@ -25,22 +27,24 @@
 		$grade -= $team->L * 10;
 		$grade += $team->P;
 		$grade += $team->G * 3;
-		$grade -=$team->GA * 3;
+		$grade -= $team->GA * 3;
 		return $grade;
 	}
 
 	function Get_NHL_Score ($team)
 	{
 		// average goals per game
-		$games = $team->W + $team->L;
-		if ($games == 0)
-			$games = 1;
-		$goals = ceil($team->G / $games);
-		$goals += rand(-$goals, $goals);
-		return $goals;
+		if (strlen($team->team)==3)
+		{
+			$goals = ceil($team->G / ($team->W + $team->L) );
+			$goals += rand(-$goals, $goals);
+			return $goals;
+		}
+		else
+			return -1;
 	}
 
-	function Get_NHL_Picks()
+	function Get_NHL_Picks($conn)
 	{
 		$GameDate = date("Y-m-d");
 		if (isset($_POST['submitNHLpicks']))
@@ -126,17 +130,20 @@
 						else
 							$homeScore ++;
 					}
-					$sql = " update games set AwayScorePick = ".$awayScore.", HomeScorePick = ".$homeScore;
-					$sql.= " where id = ".$row['id'] . "; ";
-					//$sql.= " and AwayScorePick is null and HomeScorePick is null ;  ";
-					$update_multi_sql .= $sql;
-					break;
+//					if ($awayScore >=0 && $homeScore >=0)
+					{
+						$sql = " update games set AwayScorePick = ".$awayScore.", HomeScorePick = ".$homeScore;
+						$sql.= " where id = ".$row['id'] . "; ";
+						$sql.= " and AwayScorePick is null and HomeScorePick is null ;  ";
+						$update_multi_sql .= $sql;
+						break;
+					}
 				}
 			}
 		}
 		$conn->multi_query($update_multi_sql);
 		if (isset($_POST['submitNHLpicks']))
-			{
+		{
 			echo "These NHL games have been updated:</br>";
 			echo str_replace(';', ';</br>', $update_multi_sql);
 		}

@@ -50,8 +50,8 @@
 		{
 			echo "<div>
 					<form action='' method='post' name='frmPick'>
-						<input class='datepicker' style='width:100px;' type='text' name='PickDate' value=\'' . date("Y-m-d") . '\' &nbsp;
-						<input type='submit' value='Generate '.$league.' Picks' name='submitMLBpicks'>
+						<input class='datepicker' style='width:100px;' type='text' name='PickDate' value='" . date("Y-m-d") . "'> &nbsp;
+						<input type='submit' value='Generate ".$league." Picks' name='submit".$league."picks'>
 					</form>";
 			include($league.".php");
 			echo "</div> <hr>";
