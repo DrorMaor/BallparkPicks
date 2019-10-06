@@ -45,8 +45,17 @@
 	}
 	else
 	{
-		include("MLB.php");
-		include("NHL.php");
+		$leagues = array("MLB", "NHL"); // , "NBA"
+		foreach ($leagues as $league)
+		{
+			echo "<div>
+					<form action='' method='post' name='frmPick'>
+						<input class='datepicker' style='width:100px;' type='text' name='PickDate' value=\'' . date("Y-m-d") . '\' &nbsp;
+						<input type='submit' value='Generate '.$league.' Picks' name='submitMLBpicks'>
+					</form>";
+			include($league.".php");
+			echo "</div> <hr>";
+		}
 		include("NFL.php");
 		include("AddActualScores.php");
 		include("AddGame.php");

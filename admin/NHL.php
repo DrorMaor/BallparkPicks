@@ -1,8 +1,3 @@
-<div>
-	<form action="" method="post" name="frmPick">
-		<input class="datepicker" style="width:100px;" type="text" name="PickDate" value="<?php echo date("Y-m-d"); ?>"> &nbsp;
-		<input type="submit" value="Generate NHL Picks" name="submitNHLpicks">
-	</form>
 
 <?php
 	class NHL_TeamData {
@@ -45,8 +40,12 @@
 		return $goals;
 	}
 
-	if (isset($_POST['submitNHLpicks']))
+	function Get_NHL_Picks()
 	{
+		$GameDate = date("Y-m-d");
+		if (isset($_POST['submitNHLpicks']))
+			$GameDate = $_POST["PickDate"];
+
 		// get stats of all teams
 		$fullData = shell_exec("python py/NHL.py");
 		$fullData = str_replace("{", "", $fullData);
@@ -91,7 +90,7 @@
 		}
 
 		// get this week's games
-		$sql = "select * from games where GameDate = '" . $_POST["PickDate"] . "' and league = 'NHL'; ";
+		$sql = "select * from games where GameDate = '" . $GameDate . "' and league = 'NHL'; ";
 		$results = $conn->query($sql);
 		$update_multi_sql = "";
 		while ($row = $results->fetch_assoc())
@@ -136,11 +135,10 @@
 			}
 		}
 		$conn->multi_query($update_multi_sql);
-		echo "These NHL games have been updated:</br>";
-		echo str_replace(';', ';</br>', $update_multi_sql);
+		if (isset($_POST['submitNHLpicks']))
+			{
+			echo "These NHL games have been updated:</br>";
+			echo str_replace(';', ';</br>', $update_multi_sql);
+		}
 	}
 ?>
-
-</div>
-
-<hr>

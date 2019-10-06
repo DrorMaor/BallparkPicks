@@ -1,10 +1,6 @@
-<div>
-	<form action="" method="post" name="frmPick">
-		<input class="datepicker" style="width:100px;" type="text" name="PickDate" value="<?php echo date("Y-m-d"); ?>"> &nbsp;
-		<input type="submit" value="Generate MLB Picks" name="submitMLBpicks">
-	</form>
 
 <?php
+
 	class MLB_TeamData {
 		public $team;
 
@@ -197,8 +193,12 @@
 		return $runs;
 	}
 
-	if (isset($_POST['submitMLBpicks']))
+	function Get_MLB_Picks()
 	{
+		$GameDate = date("Y-m-d");
+		if (isset($_POST['submitMLBpicks']))
+			$GameDate = $_POST["PickDate"];
+
 		// get stats of all teams
 		$fullData = shell_exec("python py/MLB.py");
 		$fullData = str_replace("{", "", $fullData);
@@ -406,7 +406,7 @@
 		}
 
 		// get the date's scheduled GAMES
-		$sql = "select id, GameDate, AwayTeam, HomeTeam from games where GameDate = '" . $_POST["PickDate"] . "' and league = 'MLB'; ";
+		$sql = "select id, GameDate, AwayTeam, HomeTeam from games where GameDate = '" . $GameDate . "' and league = 'MLB'; ";
 		$results = $conn->query($sql);
 		$update_multi_sql = "";
 		while ($row = $results->fetch_assoc())
@@ -468,11 +468,10 @@
 			}
 		}
 		$conn->multi_query($update_multi_sql);
-		echo "These have been updated:</br>";
-		echo str_replace(';', ';</br>', $update_multi_sql);
+		if (isset($_POST['submitMLBpicks']))
+		{
+			echo "These have been updated:</br>";
+			echo str_replace(';', ';</br>', $update_multi_sql);
+		}
 	}
 ?>
-
-</div>
-
-<hr>
