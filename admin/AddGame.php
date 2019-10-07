@@ -11,7 +11,10 @@
 			<?php
 				$results = $conn->query("select * from terms where type='game' order by id;");
 				while ($row = $results->fetch_assoc())
-					echo "<option value='".$row["code"]."'>".$row["name"]."</option>";
+				{
+					$selected = ($row["code"] == "PO") ? " selected " : "";
+					echo "<option value='".$row["code"]."'".$selected.">".$row["name"]."</option>";
+				}
 			?>
 		</select>
 		<select name="AwayTeam">

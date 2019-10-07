@@ -1,5 +1,7 @@
 
 <?php
+	include("../DbConn.php");
+	Get_MLB_Picks($conn);
 
 	class MLB_TeamData {
 		public $team;
@@ -193,7 +195,7 @@
 		return $runs;
 	}
 
-	function Get_MLB_Picks()
+	function Get_MLB_Picks($conn)
 	{
 		$GameDate = date("Y-m-d");
 		if (isset($_POST['submitMLBpicks']))
@@ -407,7 +409,7 @@
 
 		// get the date's scheduled GAMES
 		$sql = "select id, GameDate, AwayTeam, HomeTeam from games where GameDate = '" . $GameDate . "' and league = 'MLB'; ";
-		$results = $conn->query($sql);
+		$results = $conn->query($sql) or die($conn->error);
 		$update_multi_sql = "";
 		while ($row = $results->fetch_assoc())
 		{
@@ -473,5 +475,6 @@
 			echo "These have been updated:</br>";
 			echo str_replace(';', ';</br>', $update_multi_sql);
 		}
+		$conn->close();
 	}
 ?>

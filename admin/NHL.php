@@ -1,5 +1,6 @@
 
 <?php
+	include("../DbConn.php");
 	Get_NHL_Picks($conn);
 
 	class NHL_TeamData {
@@ -95,7 +96,7 @@
 
 		// get this week's games
 		$sql = "select * from games where GameDate = '" . $GameDate . "' and league = 'NHL'; ";
-		$results = $conn->query($sql);
+		$results = $conn->query($sql) or die($conn->error);
 		$update_multi_sql = "";
 		while ($row = $results->fetch_assoc())
 		{
@@ -141,11 +142,13 @@
 				}
 			}
 		}
-		$conn->multi_query($update_multi_sql);
+
+		$result = $conn->multi_query($update_multi_sql);
 		if (isset($_POST['submitNHLpicks']))
 		{
 			echo "These NHL games have been updated:</br>";
 			echo str_replace(';', ';</br>', $update_multi_sql);
 		}
 	}
+	$conn->close();
 ?>
