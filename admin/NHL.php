@@ -25,24 +25,22 @@
 	function Get_NHL_Grade($team)
 	{
 		$grade = $team->W * 10;
-		$grade -= $team->L * 10;
+		$grade -= ($team->L * 10);
 		$grade += $team->P;
-		$grade += $team->G * 3;
-		$grade -= $team->GA * 3;
+		$grade += ($team->G * 3);
+		$grade -= ($team->GA * 3);
 		return $grade;
 	}
 
 	function Get_NHL_Score ($team)
 	{
 		// average goals per game
-		if (strlen($team->team)==3)
+		if (strlen(trim($team->team)) == 3)
 		{
 			$goals = ceil($team->G / ($team->W + $team->L) );
-			$goals += rand(-$goals, $goals);
+			$goals += rand(-$goals, ceil($goals*.667) );
 			return $goals;
 		}
-		else
-			return -1;
 	}
 
 	function Get_NHL_Picks($conn)
@@ -66,8 +64,8 @@
 				foreach ($statsExplode as $statsEach)
 				{
 					$statsEachSplit = explode(":", $statsEach);
-					$key = str_replace("'", "", $statsEachSplit[0]);
-					$val = str_replace("'", "", $statsEachSplit[1]);
+					$key = trim(str_replace("'", "", $statsEachSplit[0]));
+					$val = trim(str_replace("'", "", $statsEachSplit[1]));
 					switch ($key)
 					{
 						case "team":
@@ -131,14 +129,11 @@
 						else
 							$homeScore ++;
 					}
-//					if ($awayScore >=0 && $homeScore >=0)
-					{
-						$sql = " update games set AwayScorePick = ".$awayScore.", HomeScorePick = ".$homeScore;
-						$sql.= " where id = ".$row['id'] . "; ";
-						$sql.= " and AwayScorePick is null and HomeScorePick is null ;  ";
-						$update_multi_sql .= $sql;
-						break;
-					}
+					$sql = " update games set AwayScorePick = ".$awayScore.", HomeScorePick = ".$homeScore;
+					$sql.= " where id = ".$row['id'];
+					$sql.= " and AwayScorePick is null and HomeScorePick is null ;  ";
+					$update_multi_sql .= $sql;
+					break;
 				}
 			}
 		}
