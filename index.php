@@ -123,13 +123,13 @@
 				$HTML .= "<table style='width:100%;'>";
 				$HTML .= "<tr>";
 				$HTML .= "	<td> <img class='logo' src='logos/".$game['league']."/".$game["AwayTeam"].".png'></td>";
-				$HTML .= "	<td class='".$awayClass."'> ".trim($game["AwayTeamName"])."</td>";
+				$HTML .= "	<td class='".$awayClass."'>".trim($game["AwayTeamName"])."</td>";
 				$HTML .= "	<td>&nbsp;</td>";
 				$HTML .= "	<td class='".$awayClass." score'>".$game["AwayScorePick"];
 				$HTML .= "</tr>";
 				$HTML .= "<tr>";
 				$HTML .= "	<td> <img class='logo' src='logos/".$game['league']."/".$game["HomeTeam"].".png'></td>";
-				$HTML .= "	<td class='".$homeClass."'> ".trim($game["HomeTeamName"])."</td>";
+				$HTML .= "	<td class='".$homeClass."'>".trim($game["HomeTeamName"])."</td>";
 				$HTML .= "	<td>&nbsp;</td>";
 				$HTML .= "	<td class='".$homeClass." score'>".$game["HomeScorePick"]."</td>";
 				$HTML .= "</tr>";
