@@ -1,11 +1,13 @@
 class TeamData:
-	def __init__(self, team, W, L, P, G, GA):
+	def __init__(self, team, GP, W, L, OL, P, G, GA):
 		self.team = team   # (3 letter team code)
-		self.W = W
-		self.L = L
-		self.P = P
-		self.G = G
-		self.GA = GA
+		self.GP = GP   # games played
+		self.W = W     # wins
+		self.L = L     # losses
+		self.OL = OL   # overtime losses
+		self.P = P     # points
+		self.G = G     # goals (scored)
+		self.GA = GA   # goals against
 
 
 
@@ -37,13 +39,15 @@ for stat in AllStats:
 	if stat in TeamsDict:
 		index = 0
 		team = TeamsDict[AllStats[StatCounter]]
+	if index == 3: GP = AllStats[StatCounter]
 	if index == 5: W = AllStats[StatCounter]
 	if index == 7: L = AllStats[StatCounter]
+	if index == 9: OL = AllStats[StatCounter]
 	if index == 11: P = AllStats[StatCounter]
 	if index == 15: G = AllStats[StatCounter]
 	if index == 17:
 		GA = AllStats[StatCounter]
-		teamData = TeamData(team, W, L, P, G, GA)
+		teamData = TeamData(team, GP, W, L, OL, P, G, GA)
 		AllTeamsData.append(teamData)
 
 	StatCounter += 1

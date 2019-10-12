@@ -43,7 +43,7 @@
 		if (strlen(trim($team->team)) == 3)
 		{
 			$goals = ceil($team->G / $team->GP);
-			$goals += rand(ceil(-$goals *.75), ceil($goals *.5) );
+			$goals += rand(ceil(-$goals *.75), ceil($goals *.75) );
 			return $goals;
 		}
 	}

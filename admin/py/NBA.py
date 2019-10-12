@@ -64,12 +64,11 @@ from NFL_TeamsDict import NFL_TeamsDict
 
 AllTeamsData = []
 
-# offense
-url = "https://www.pro-football-reference.com/years/" + str(datetime.date.today().year) + "/"
+year = str(datetime.date.today().year);
+year = str(2020);
+url = "https://www.basketball-reference.com/leagues/NBA_"+year+".html"
 page = urllib.urlopen(url).read()
-offense_start = page.find('all_team_stats')
-page_cut = page[offense_start:]
-tableData = page_cut[page_cut.find("<tbody>") : page_cut.find("</tbody>")]
+tableData = page[page.find("Team Per Game Stats") : page.find("Opponent Per Game Stats")]
 soup = BeautifulSoup(tableData, 'lxml')
 rows = soup.findAll("tr")
 AllStats = re.findall(">(.*?)<", str(rows), flags=0)
