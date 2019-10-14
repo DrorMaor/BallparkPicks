@@ -1,61 +1,70 @@
 
 <?php
 	include("../DbConn.php");
-	Get_NHL_Picks($conn);
+	Get_NBA_Picks($conn);
 
-	class NHL_TeamData {
+	class NBA_TeamData {
 		public $team;
-		public $GP;
-		public $W;
-		public $L;
-		public $OL;
-		public $P;
 		public $G;
-		public $GA;
+		public $Pt2P;
+		public $Pt3P;
+		public $FTP;
+		public $RB;
+		public $STL;
+		public $BLK;
+		public $TOV;
+		public $PF;
+		public $P;
 
-		function __construct ($team, $GP, $W, $L, $OL, $P, $G, $GA)
+		function __construct ($team, $G, $Pt2P, $Pt3P, $FTP, $RB, $STL, $BLK, $TOV, $PF, $P)
 		{
 			$this->team = $team;
-			$this->GP = $GP;
-			$this->W = $W;
-			$this->L = $L;
-			$this->OL = $OL;
-			$this->P = $P;
 			$this->G = $G;
-			$this->GA = $GA;
+			$this->Pt2P = $Pt2P;
+			$this->Pt3P = $Pt3P;
+			$this->FTP = $FTP;
+			$this->RB = $RB;
+			$this->STL = $STL;
+			$this->BLK = $BLK;
+			$this->TOV = $TOV;
+			$this->PF = $PF;
+			$this->P = $P;
 		}
 	}
 
-	function Get_NHL_Grade($team)
+	function Get_NBA_Grade($team)
 	{
-		$grade = $team->W * 10;
-		$grade -= ($team->L * 10);
-		$grade -= ($team->OL * 3);
+		$grade = ($team->Pt2P * 1000);
+		$grade += ($team->Pt3P * 1000);
+		$grade += ($team->FTP * 1000);
+		$grade += $team->RB;
+		$grade += $team->STL;
+		$grade += $team->BLK;
+		$grade += $team->TOV;
+		$grade -= ($team->PF * 2);
 		$grade += $team->P;
-		$grade += ($team->G * 3);
-		$grade -= ($team->GA * 3);
 		return $grade;
 	}
 
-	function Get_NHL_Score ($team)
+	function Get_NBA_Score ($team)
 	{
-		// average goals per game
 		if (strlen(trim($team->team)) == 3)
 		{
-			$goals = ceil($team->G / $team->GP);
-			$goals += rand(ceil(-$goals *.75), ceil($goals *.75) );
-			return $goals;
+			// average points per game
+			$points = ceil($team->P / $team->G);
+			$points += rand(-15, 15);
+			return $points;
 		}
 	}
 
-	function Get_NHL_Picks($conn)
+	function Get_NBA_Picks($conn)
 	{
 		$GameDate = date("Y-m-d");
-		if (isset($_POST['submitNHLpicks']))
+		if (isset($_POST['submitNBApicks']))
 			$GameDate = $_POST["PickDate"];
 
 		// get stats of all teams
-		$fullData = shell_exec("python py/NHL.py");
+		$fullData = shell_exec("python py/NBA.py");
 		$fullData = str_replace("{", "", $fullData);
 		$teams = [];
 		$stats = explode("}", $fullData);
@@ -63,9 +72,9 @@
 		foreach ($stats as $stat)
 		{
 			$statsExplode = explode(", ", $stat);
-			if (sizeof($statsExplode) == 8)
+			if (sizeof($statsExplode) == 11)
 			{
-				$team = new NHL_TeamData("", "", "", "", "", "", "", "");
+				$team = new NBA_TeamData("", "", "", "", "", "", "", "", "", "", "");
 				foreach ($statsExplode as $statsEach)
 				{
 					$statsEachSplit = explode(":", $statsEach);
@@ -76,26 +85,35 @@
 						case "team":
 							$team->team = $val;
 							break;
-						case "GP":
-							$team->GP = $val;
-							break;
-						case "W":
-							$team->W = $val;
-							break;
-						case "L":
-							$team->L = $val;
-							break;
-						case "OL":
-							$team->OL = $val;
-							break;
-						case "P":
-							$team->P = $val;
-							break;
 						case "G":
 							$team->G = $val;
 							break;
-						case "GA":
-							$team->GA = $val;
+						case "Pt2P":
+							$team->Pt2P = $val;
+							break;
+						case "Pt3P":
+							$team->Pt3P = $val;
+							break;
+						case "FTP":
+							$team->FTP = $val;
+							break;
+						case "RB":
+							$team->RB = $val;
+							break;
+						case "STL":
+							$team->STL = $val;
+							break;
+						case "BLK":
+							$team->BLK = $val;
+							break;
+						case "TOV":
+							$team->TOV = $val;
+							break;
+						case "PF":
+							$team->PF = $val;
+							break;
+						case "P":
+							$team->P = $val;
 							break;
 					}
 				}
@@ -104,7 +122,7 @@
 		}
 
 		// get this week's games
-		$sql = "select * from games where GameDate = '" . $GameDate . "' and league = 'NHL'; ";
+		$sql = "select * from games where GameDate = '" . $GameDate . "' and league = 'NBA'; ";
 		$results = $conn->query($sql) or die($conn->error);
 		$update_multi_sql = "";
 		while ($row = $results->fetch_assoc())
@@ -120,15 +138,15 @@
 				if (trim($team->team) == trim($row["AwayTeam"]))
 				{
 					$awayTeam = $team;
-					$awayGrade = Get_NHL_Grade($team);
-					$awayScore = Get_NHL_Score($team);
+					$awayGrade = Get_NBA_Grade($team);
+					$awayScore = Get_NBA_Score($team);
 					$awayTeamFound = 1;
 				}
 				if (trim($team->team) == trim($row["HomeTeam"]))
 				{
 					$homeTeam = $team;
-					$homeGrade = Get_NHL_Grade($team);
-					$homeScore = Get_NHL_Score($team);
+					$homeGrade = Get_NBA_Grade($team);
+					$homeScore = Get_NBA_Score($team);
 					$homeTeamFound = 1;
 				}
 				if ($awayTeamFound == 1 && $homeTeamFound == 1)
@@ -150,9 +168,9 @@
 		}
 
 		$result = $conn->multi_query($update_multi_sql);
-		if (isset($_POST['submitNHLpicks']))
+		if (isset($_POST['submitNBApicks']))
 		{
-			echo "These NHL games have been updated:</br>";
+			echo "These NBA games have been updated:</br>";
 			echo str_replace(';', ';</br>', $update_multi_sql);
 		}
 	}
