@@ -279,6 +279,7 @@
 		}
 
 		// get this week's games
+		include ("../DbConn.php");
 		$sql = "
 			select g.id, AwayTeam.AwayTeam, HomeTeam.HomeTeam from games g 
 				inner join NFLweeks w 
@@ -328,6 +329,7 @@
 		$conn->multi_query($update_multi_sql);
 		echo "These NFL games have been updated:</br>";
 		echo str_replace(';', ';</br>', $update_multi_sql);
+		$conn->close();
 	}
 ?>
 
