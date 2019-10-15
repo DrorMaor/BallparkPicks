@@ -41,8 +41,7 @@ year = str(datetime.date.today().year);
 url = "https://www.basketball-reference.com/leagues/NBA_"+year+".html"
 page = urllib.urlopen(url).read()
 tableData = page[page.find("Team Stats") : page.find("Opponent Stats")]
-# <tr ><th scope="row" class="right " data-stat="ranker" csk="30" >30</th><td class="left " data-stat="team_name" ><a href="/teams/MEM/2019.html">Memphis Grizzlies</a></td><td class="right " data-stat="g" >82</td><td class="right " data-stat="mp" >19880</td><td class="right " data-stat="fg" >3113</td><td class="right " data-stat="fga" >6924</td><td class="right " data-stat="fg_pct" >.450</td><td class="right " data-stat="fg3" >811</td><td class="right " data-stat="fg3a" >2368</td><td class="right " data-stat="fg3_pct" >.342</td><td class="right " data-stat="fg2" >2302</td><td class="right " data-stat="fg2a" >4556</td><td class="right " data-stat="fg2_pct" >.505</td><td class="right " data-stat="ft" >1453</td><td class="right " data-stat="fta" >1882</td><td class="right " data-stat="ft_pct" >.772</td><td class="right " data-stat="orb" >723</td><td class="right " data-stat="drb" >2703</td><td class="right " data-stat="trb" >3426</td><td class="right " data-stat="ast" >1963</td><td class="right " data-stat="stl" >684</td><td class="right " data-stat="blk" >448</td><td class="right " data-stat="tov" >1147</td><td class="right " data-stat="pf" >1801</td><td class="right " data-stat="pts" >8490</td></tr>
-
+tableData = tableData[tableData.find("<tbody>") : ]
 soup = BeautifulSoup(tableData, 'lxml')
 rows = soup.findAll("tr")
 AllStats = re.findall(">(.*?)<", str(rows), flags=0)
@@ -54,16 +53,16 @@ for stat in AllStats:
 	if stat in NBA_TeamsDict:
 		index = 0
 		team = AllStats[StatCounter]
-	if index == 1:  G = AllStats[StatCounter]
-	if index == 13: Pt2P = AllStats[StatCounter]
-	if index == 10: Pt3P = AllStats[StatCounter]
-	if index == 16: FTP = AllStats[StatCounter]
-	if index == 19: RB = AllStats[StatCounter]
-	if index == 21: STL = AllStats[StatCounter]
-	if index == 22: BLK = AllStats[StatCounter]
-	if index == 23: TOV = AllStats[StatCounter]
-	if index == 24: PF = AllStats[StatCounter]
-	if index == 25:
+	if index == 3:  G = AllStats[StatCounter]
+	if index == 23: Pt2P = AllStats[StatCounter]
+	if index == 17: Pt3P = AllStats[StatCounter]
+	if index == 23: FTP = AllStats[StatCounter]
+	if index == 35: RB = AllStats[StatCounter]
+	if index == 39: STL = AllStats[StatCounter]
+	if index == 41: BLK = AllStats[StatCounter]
+	if index == 43: TOV = AllStats[StatCounter]
+	if index == 45: PF = AllStats[StatCounter]
+	if index == 47:
 		P = AllStats[StatCounter]
 		teamData = TeamData(team, G, Pt2P, Pt3P, FTP, RB, STL, BLK, TOV, PF, P)
 		AllTeamsData.append(teamData)
