@@ -45,7 +45,7 @@
 	}
 	else
 	{
-		$leagues = array("MLB", "NHL"); // , "NBA"
+		$leagues = array("MLB", "NBA", "NHL");
 		foreach ($leagues as $league)
 		{
 			echo "<div>
