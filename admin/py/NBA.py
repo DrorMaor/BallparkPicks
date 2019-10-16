@@ -32,7 +32,7 @@ import requests
 import re
 import datetime
 import urllib
-from NBA_TeamsDict import NBA_TeamsDict
+from NBA_TeamsDict import TeamsDict
 
 AllTeamsData = []
 
@@ -50,9 +50,9 @@ StatCounter = 0
 index = 0
 # go thru the entire stats, and reset for each new team
 for stat in AllStats:
-	if stat in NBA_TeamsDict:
+	if stat in TeamsDict:
 		index = 0
-		team = AllStats[StatCounter]
+		team = TeamsDict[AllStats[StatCounter]]
 	if index == 3:  G = AllStats[StatCounter]
 	if index == 23: Pt2P = AllStats[StatCounter]
 	if index == 17: Pt3P = AllStats[StatCounter]

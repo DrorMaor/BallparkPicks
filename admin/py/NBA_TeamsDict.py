@@ -1,4 +1,4 @@
-NBA_TeamsDict =	{
+TeamsDict =	{
 	"Milwaukee Bucks" : "MIL",
 	"Golden State Warriors" : "GSW",
 	"New Orleans Pelicans" : "NOP",

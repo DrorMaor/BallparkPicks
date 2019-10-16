@@ -55,7 +55,7 @@
 		from games g
 			inner join teams away on away.code = g.AwayTeam and away.league = 'NFL'
 			inner join teams home on home.code = g.HomeTeam and home.league = 'NFL'
-		where g.league = 'NFL'
+		where g.league = 'NFL' and g.GameType <> '--'
 			and GameDate between '" . $week["StartDate"] . "' and '" . $week["EndDate"] . "'
 		order by g.GameDate, g.id	; ";
 	drawGameHTML($conn, $GamesSQL, $title);
@@ -70,7 +70,7 @@
 			from games g
 				inner join teams away on away.code = g.AwayTeam and away.league = '$league'
 				inner join teams home on home.code = g.HomeTeam and home.league = '$league'
-			where g.GameDate = curdate() and g.league = '$league'; ";
+			where g.GameDate = curdate() and g.GameType <> '--' and g.league = '$league'; ";
 		drawGameHTML($conn, $GamesSQL, "<div class='heading'>$league</div>");
 	}
 
