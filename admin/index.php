@@ -22,15 +22,16 @@
 	</script>
 	<body>
 <?php
-	echo "<b>Today is " . date("Y-m-d") . "</b> <br> </br>";
-	include "../DbConn.php";
+
 
 	if (isset($_POST["submitLogin"]))
 	{
+		include "../DbConn.php";
 		$sql = "select count(*) as loggedIn from users where user = '" . $_POST["user"] . "' and pwd = md5('" . $_POST["pwd"] . "');";
 		$results = $conn->query($sql);
 		$row = $results->fetch_assoc();
 		$_SESSION["loggedIn"] = $row["loggedIn"];
+		$conn->close();
 	}
 
 	if ($_SESSION["loggedIn"] == "0")
@@ -45,6 +46,8 @@
 	}
 	else
 	{
+		echo "<b>Today is " . date("Y-m-d") . "</b> <br> </br>";
+
 		$leagues = array("MLB", "NBA", "NHL");
 		foreach ($leagues as $league)
 		{
@@ -61,8 +64,6 @@
 		include("AddGame.php");
 		include("record.php");
 	}
-
-	$conn->close();
 ?>
 
 </body>
