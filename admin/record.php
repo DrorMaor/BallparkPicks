@@ -1,5 +1,9 @@
-<div style="text-decoration: underline; margin:5px;">Our Record</div>
+<div>
+	<strong>Record</strong>
+	<br>
 <?php
+	include("../DbConn.php");
+
 	$leagues = array("NFL", "MLB", "NHL", "NBA");
 	foreach ($leagues as $league)
 	{
@@ -27,4 +31,9 @@
 		if ($record["a"] > 0)
 			echo $league.": ".round($record["k"] / $record["a"] * 100, 2) . "% </br>" ;
 	}
+	$conn->close();
 ?>
+
+</div>
+
+<hr>

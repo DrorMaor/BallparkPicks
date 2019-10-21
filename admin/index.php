@@ -59,6 +59,7 @@
 		include("NFL.php");
 		include("AddActualScores.php");
 		include("AddGame.php");
+		include("record.php");
 	}
 
 	$conn->close();
