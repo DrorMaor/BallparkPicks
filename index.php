@@ -18,6 +18,9 @@
 	<body>
 		<?php 
 			include "DbConn.php";
+			$traffic = "insert into traffic (IP, referer) values ('". $_SERVER['REMOTE_ADDR'] . "', '" . $_SERVER['HTTP_REFERER'] . "');";
+			$conn->query($traffic);
+
 			include "divs.php";
 		?>
 		<table>
