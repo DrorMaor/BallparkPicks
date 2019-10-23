@@ -1,4 +1,5 @@
 <?php
+	mail("dror.m.maor@gmail.com", "BPP csv", "");
 
 //	error_reporting(E_ALL);
 //	ini_set('display_errors', 1);
