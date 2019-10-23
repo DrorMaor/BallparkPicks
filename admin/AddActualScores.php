@@ -4,6 +4,13 @@
 	<input type="text" name="ActualDate" style="width:100px;" class="datepicker"
 		value="<?php echo date("Y-m-d", strtotime("-1 days")) ?>"> &nbsp;
 	<input type="checkbox" name="MissedGames" value="MissedGames">All Missed Games &nbsp;
+	<select name="league">
+		<option value="---">---</option>
+		<option value="NFL">NFL</option>
+		<option value="MLB">MLB</option>
+		<option value="NBA">NBA</option>
+		<option value="NHL">NHL</option>
+	</select>
 	<input type="submit" value="Show Games By Date" name="submitShowGamesByDate">
 </form>
 <style>
@@ -23,7 +30,7 @@
 	{
 		?>
 		<form action="" method="post" name="frmAddActualScores">
-			<?php 
+			<?php
 				// if we show all the missed games, we want to put each date there separately
 				$MissedGames = 0;
 				if(isset($_POST['MissedGames']) && $_POST['MissedGames'] == 'MissedGames')
@@ -50,9 +57,11 @@
 				$sql .= "where GameDate < curdate() ";
 			else
 				$sql .= "where GameDate = '".$_POST['ActualDate']."' ";
+			if(isset($_POST['league']) && $_POST['league'] != '---')
+				$sql.= " and league = '" . $_POST['league'] . "' ";
 			$sql .= "
 				and AwayScoreActual is null and HomeScoreActual is null
-				order by league, AwayTeam ; ";
+				order by league, GameDate, AwayTeam ; ";
 			$results = $conn->query($sql);
 			while ($row = $results->fetch_assoc())
 			{
