@@ -73,6 +73,13 @@
 .button:hover {
 	opacity:.5;
 }
+.ImgBtn {
+	height: 75px;
+	cursor: pointer;
+}
+.ImgBtn:hover {
+	opacity:.5;
+}
 .close {
 	 border:0px white solid;
 	 width:15px;

@@ -1,3 +1,4 @@
+
 class TeamData:
 	def __init__(self, team, G, Pt2P, Pt3P, FTP, RB, STL, BLK, TOV, PF, P):
 		self.team = team   # (3 letter team code)
@@ -37,7 +38,7 @@ from NBA_TeamsDict import TeamsDict
 AllTeamsData = []
 
 year = str(datetime.date.today().year);
-#year = str(2020);
+year = str(2020);
 url = "https://www.basketball-reference.com/leagues/NBA_"+year+".html"
 page = urllib.urlopen(url).read()
 tableData = page[page.find("Team Stats") : page.find("Opponent Stats")]

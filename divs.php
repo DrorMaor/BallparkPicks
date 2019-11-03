@@ -6,7 +6,7 @@
 		Yes, we realize that only baseball is played at a ballpark, while football is played at a stadium, and basketball and hockey are played at arenas.
 	</p>
 	<p>
-		The BBP team is comprised of experienced software developers who happen to be huge sports fans too. This combination gives you the best possible analysis of all big league games.
+		The BPP team is comprised of experienced software developers who happen to be huge sports fans too. This combination gives you the best possible analysis of all big league games.
 		<br>
 		Prior to each game, the cumulative data of both teams is analyzed, and each team is assigned a grade based on a complex algorithm that we've developed. After the computer decides which team is most likely to win the game, the final score is computed, and the pick is published to the site. We try to have the picks ready by each morning, and at the beginning of each NFL week.
 	</p>

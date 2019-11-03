@@ -26,7 +26,7 @@
 		<table>
 			<tr>
 				<td>
-					<img src="banner.png" style="vertical-align: middle;">
+					<img src="images/banner.png" style="vertical-align: middle;">
 				</td>
 				<td>&nbsp;</td>
 				<td>

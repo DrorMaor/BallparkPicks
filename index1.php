@@ -23,13 +23,13 @@
 		<table>
 			<tr>
 				<td>
-					<img src="banner.png" style="vertical-align: middle;">
+					<img src="images/banner.png" style="vertical-align: middle;">
 				</td>
 				<td>&nbsp;</td>
 				<td>
-					<div id="btnAbout" class="button">About</div>
-					<div id="btnContact" class="button">Contact</div>
-					<div id="btnExport" class="button">Export</div>
+					<span id="btnAbout"><img class="ImgBtn" src="images/about.png"></span> &nbsp;
+					<span id="btnContact"><img class="ImgBtn" src="images/twitter.png"></span> &nbsp;
+					<span id="btnExport"><img class="ImgBtn" src="images/excel.png"></span>
 				</td>
 				<td id="tdRecord">
 					<?php // include "record.php"; ?>
