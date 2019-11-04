@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 .DS_Store
 composer.lock
 vendor
 env
 .cache
+=======
+/vendor
+/composer.lock
+>>>>>>> 417b5ee9f827de6d8c1657125df09a462f8ff504

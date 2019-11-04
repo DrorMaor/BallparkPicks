@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
     "name": "abraham/twitteroauth",
     "type": "library",
     "description": "The most popular PHP library for use with the Twitter OAuth REST API.",
@@ -31,4 +32,30 @@
             "Abraham\\TwitterOAuth\\": "src"
         }
     }
+=======
+	"name": "dg/twitter-php",
+	"description": "Small and easy Twitter library for PHP",
+	"keywords": ["twitter", "oauth"],
+	"homepage": "https://github.com/dg/twitter-php",
+	"license": ["BSD-3-Clause"],
+	"authors": [
+		{
+			"name": "David Grudl",
+			"homepage": "https://davidgrudl.com"
+		}
+	],
+	"require": {
+		"php": ">=7.1",
+		"ext-curl": "*",
+		"ext-json": "*"
+	},
+	"autoload": {
+		"classmap": ["src/"]
+	},
+	"extra": {
+		"branch-alias": {
+			"dev-master": "4.0-dev"
+		}
+	}
+>>>>>>> 417b5ee9f827de6d8c1657125df09a462f8ff504
 }
