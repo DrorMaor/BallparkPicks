@@ -5,7 +5,7 @@
 	$year = $_GET["year"];
     */
     $date = new DateTime(); // For today/now, don't pass an arg.
-    $date->modify("-2 day");
+    $date->modify("-1 day");
     $month = $date->format('m');
     $day = $date->format('d');
     $year = $date->format('Y');
@@ -38,7 +38,9 @@
 	                $sql .= " where AwayTeam = '" . $awayTeam . "' and HomeTeam = '" . $homeTeam . "' ";
         	        $sql .= " and league = 'NHL' and GameDate = '" . $year . "-" . $month . "-" . $day . "'" ;
 			$sql .= " and AwayScoreActual is null and HomeScoreActual is null; ";
-                }
+        }
 	}
-	echo $sql;
+	include("../../DbConn.php");
+    $result = $conn->multi_query($sql);
+    $conn->close();
 ?>
