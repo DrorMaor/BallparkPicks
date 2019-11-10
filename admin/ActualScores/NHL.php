@@ -1,14 +1,14 @@
 <?php
-    /*
+	/*
 	$month = $_GET["month"];
 	$day = $_GET["day"];
 	$year = $_GET["year"];
-    */
-    $date = new DateTime(); // For today/now, don't pass an arg.
-    $date->modify("-2 day");
-    $month = $date->format('m');
-    $day = $date->format('d');
-    $year = $date->format('Y');
+    	*/
+	$date = new DateTime();
+	$date->modify("-1 day");
+	$month = $date->format('m');
+	$day = $date->format('d');
+	$year = $date->format('Y');
 	$html = file_get_contents("https://www.hockey-reference.com/boxscores/index.fcgi?month=".$month."&day=".$day."&year=".$year);
 	$start = strpos($html, "Find Games");
 	$end =   strpos($html, "dailyleaders");
@@ -40,5 +40,7 @@
 			$sql .= " and AwayScoreActual is null and HomeScoreActual is null; ";
                 }
 	}
-	echo $sql;
+	include("../../DbConn.php");
+	$result = $conn->multi_query($sql);
+	$conn->close();
 ?>
