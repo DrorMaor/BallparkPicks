@@ -4,7 +4,7 @@
 
 	include("../DbConn.php");
 	$league = $_GET["league"];
-	$sql = "select AwayTeam.name as AwayTeam, g.AwayScorePick, HomeTeam.name as HomeTeam, g.HomeScorePick from games g
+	$sql = "select AwayTeam.TwitterHandle as AwayTeam, g.AwayScorePick, HomeTeam.TwitterHandle as HomeTeam, g.HomeScorePick from games g
 			inner join teams AwayTeam on AwayTeam.code = g.AwayTeam and AwayTeam.league = '" . $league . "'
 			inner join teams HomeTeam on HomeTeam.code = g.HomeTeam and HomeTeam.league = '" . $league . "'
 		where g.GameDate = curdate() and g.league = '" . $league . "' order by g.id limit 3; ";
@@ -14,8 +14,8 @@
 		$tweet = "Here are some #" . $league . " picks for today:\r\n\r\n";
 		while ($row = $results->fetch_assoc())
 		{
-			$tweet.= $row["AwayTeam"]." ".$row["AwayScorePick"]."\r\n";
-			$tweet.= $row["HomeTeam"]." ".$row["HomeScorePick"]."\r\n\r\n";
+			$tweet.= "@" . $row["AwayTeam"]." ".$row["AwayScorePick"]."\r\n";
+			$tweet.= "@" . $row["HomeTeam"]." ".$row["HomeScorePick"]."\r\n\r\n";
 		}
 		$tweet.= "\r\nThe rest can be found on www.BallparkPicks.com";
 
@@ -29,6 +29,7 @@
 		$cb->setToken($AccessToken, $AccessTokenSecret);
 		$params = array( 'status' => $tweet );
 		$reply = $cb->statuses_update($params);
+		//echo $tweet;
 	}
 	$conn->close();
 ?>
