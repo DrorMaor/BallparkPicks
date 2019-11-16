@@ -3,7 +3,14 @@
 	//ini_set('display_errors', 1);
 
 	include("../DbConn.php");
-	$sql = "";
+	// SQL for MNF & TNF (sunday is different, later on)
+	$sql = "select AwayTeam.name as AwayTeam, g.AwayScorePick, HomeTeam.name as HomeTeam, g.HomeScorePic$
+						from games g
+							   inner join teams AwayTeam on AwayTeam.code = g.AwayTeam and AwayTeam.league $
+							   inner join teams HomeTeam on HomeTeam.code = g.HomeTeam and HomeTeam.league $
+							   inner join NFLweeks w on g.GameDate between w.StartDate and w.EndDate
+						where g.league = 'NFL' and g.GameDate = curdate()
+						order by g.id ; ";
 	$tweet = "";
 	$weekday = date("w");
 
@@ -11,27 +18,13 @@
 	{
 		case 4: // thursday
 			$tweet = "Here is the #NFL pick for #TNF:\r\n\r\n";
-			 $sql = "select AwayTeam.name as AwayTeam, g.AwayScorePick, HomeTeam.name as HomeTeam, g.HomeScorePic$
-                                 from games g
-                                        inner join teams AwayTeam on AwayTeam.code = g.AwayTeam and AwayTeam.league $
-                                        inner join teams HomeTeam on HomeTeam.code = g.HomeTeam and HomeTeam.league $
-                                        inner join NFLweeks w on g.GameDate between w.StartDate and w.EndDate
-                                 where g.league = 'NFL' and g.GameDate = curdate()
-                                 order by g.id ; ";
 			break;
 		case 1: // monday
 			$tweet = "Here is the #NFL pick for #MNF:\r\n\r\n";
-			$sql = "select AwayTeam.name as AwayTeam, g.AwayScorePick, HomeTeam.name as HomeTeam, g.HomeScorePick 
-						from games g
-						inner join teams AwayTeam on AwayTeam.code = g.AwayTeam and AwayTeam.league = 'NFL'
-						inner join teams HomeTeam on HomeTeam.code = g.HomeTeam and HomeTeam.league = 'NFL'
-						inner join NFLweeks w on g.GameDate between w.StartDate and w.EndDate
-					where g.league = 'NFL' and g.GameDate = curdate()
-					order by g.id ; ";
 			break;
 		case 0: // regular Sunday
 			$tweet = "Here are some #NFL picks for today:\r\n\r\n";
-			$sql = "select AwayTeam.name as AwayTeam, g.AwayScorePick, HomeTeam.name as HomeTeam, g.HomeScorePick 
+			$sql = "select AwayTeam.name as AwayTeam, g.AwayScorePick, HomeTeam.name as HomeTeam, g.HomeScorePick
 						from games g
 						inner join teams AwayTeam on AwayTeam.code = g.AwayTeam and AwayTeam.league = 'NFL'
 						inner join teams HomeTeam on HomeTeam.code = g.HomeTeam and HomeTeam.league = 'NFL'
@@ -69,4 +62,3 @@
 	}
 	$conn->close();
 ?>
-
