@@ -5,6 +5,7 @@
 			<th>IP</th>
 			<th>theTime</th>
 			<th>referer</th>
+			<th>URL</th>
 		</tr>
 <?php
 	include ("../DbConn.php");
@@ -17,6 +18,7 @@
 		echo "<td>".$row["IP"]."</td>";
 		echo "<td>".$row["theTime"]."</td>";
 		echo "<td>".$row["referer"]."</td>";
+		echo "<td>".$row["URL"]."</td>";
 		echo "</tr>";
 	}
 	$conn->close();

@@ -18,8 +18,10 @@
 	<body>
 		<?php 
 			include "DbConn.php";
-			$traffic = "insert into traffic (IP, referer) values ('". $_SERVER['REMOTE_ADDR'] . "', '" . $_SERVER['HTTP_REFERER'] . "');";
+			$traffic = "insert into traffic (IP, referer, URL) values ('". $_SERVER['REMOTE_ADDR'] . "', '" . $_SERVER['HTTP_REFERER'] . "', '" . $_SERVER['REQUEST_URI'] . "');";
 			$conn->query($traffic);
+			if ($_SERVER['REQUEST_URI'] != '/')
+				mail('dror.m.maor@gmail.com', 'URI alert', $_SERVER['REQUEST_URI']);
 
 			include "divs.php";
 		?>

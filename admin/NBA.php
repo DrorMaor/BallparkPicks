@@ -52,7 +52,9 @@
 		{
 			// average points per game
 			$points = ceil($team->P / $team->G);
-			$points += rand(-15, 15);
+			$points += rand(-10, 10);
+			if ($points >= 130)
+				$points -= rand(3, 5);
 			return $points;
 		}
 	}

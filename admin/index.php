@@ -63,7 +63,7 @@
 		include("AddActualScores.php");
 		include("AddGame.php");
 		include("record.php");
-//		include("traffic.php");
+		include("traffic.php");
 	}
 ?>
 
