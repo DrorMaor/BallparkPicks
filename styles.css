@@ -8,6 +8,18 @@
 	vertical-align:top;
 	color: #0F1C46;
 }
+.tabs {
+	display:inline;
+	float:left;
+	margin:5px;
+	cursor: pointer;
+}
+.tabs:hover {
+	opacity:.5;
+}
+.ActiveTab {
+	background-color:#b1cdfa;
+}
 .divs {
 	width:50%;
 	height:50%;

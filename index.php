@@ -43,9 +43,10 @@
 				<td id="tdRecord">
 					<?php // include "record.php"; ?>
 				</td>
--->
+
 			</tr>
 		</table>
+-->
 		</br>
 		<div class="heading">
 			Computerized predictions for 
