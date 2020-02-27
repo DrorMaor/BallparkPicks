@@ -9,7 +9,7 @@
 
 			gtag('config', 'UA-20157082-8');
 		</script>
-		<title>Ballpark Picks</title>
+		<title>Tzefi - Accurate Predictions</title>
 		<link rel="shortcut icon" href="favicon.ico" />
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 		<script src="scripts.js"></script>
@@ -25,6 +25,10 @@
 
 			include "divs.php";
 		?>
+		<br>
+		<img src="images/tzefi.png" />
+		<br>
+<!--
 		<table>
 			<tr>
 				<td>
@@ -39,11 +43,12 @@
 				<td id="tdRecord">
 					<?php // include "record.php"; ?>
 				</td>
+-->
 			</tr>
 		</table>
 		</br>
 		<div class="heading">
-			Computerized picks for games on
+			Computerized predictions for 
 			<?php
 				$NYdate = new DateTime("now", new DateTimeZone('America/New_York') );
 				echo $NYdate->format("l, F jS, Y");

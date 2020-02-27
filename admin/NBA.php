@@ -161,8 +161,8 @@
 							$homeScore ++;
 					}
 					$sql = " update games set AwayScorePick = ".$awayScore.", HomeScorePick = ".$homeScore;
-					$sql.= " where id = ".$row['id'];
-					$sql.= " and AwayScorePick is null and HomeScorePick is null ;  ";
+					$sql.= " where id = ".$row['id']."; ";
+					//$sql.= " and AwayScorePick is null and HomeScorePick is null ;  ";
 					$update_multi_sql .= $sql;
 					break;
 				}

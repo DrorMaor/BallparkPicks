@@ -59,7 +59,6 @@
 		$fullData = str_replace("{", "", $fullData);
 		$teams = [];
 		$stats = explode("}", $fullData);
-
 		foreach ($stats as $stat)
 		{
 			$statsExplode = explode(", ", $stat);

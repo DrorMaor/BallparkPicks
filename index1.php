@@ -9,7 +9,7 @@
 
 			gtag('config', 'UA-20157082-8');
 		</script>
-		<title>Ballpark Picks</title>
+		<title>Tzefi - Accurate Predictions</title>
 		<link rel="shortcut icon" href="favicon.ico" />
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 		<script src="scripts.js"></script>
@@ -18,8 +18,17 @@
 	<body>
 		<?php 
 			include "DbConn.php";
+			$traffic = "insert into traffic (IP, referer, URL) values ('". $_SERVER['REMOTE_ADDR'] . "', '" . $_SERVER['HTTP_REFERER'] . "', '" . $_SERVER['REQUEST_URI'] . "');";
+			$conn->query($traffic);
+			if ($_SERVER['REQUEST_URI'] != '/')
+				mail('dror.m.maor@gmail.com', 'URI alert', $_SERVER['REQUEST_URI']);
+
 			include "divs.php";
 		?>
+		<br>
+		<img src="images/tzefi.png" />
+		<br>
+<!--
 		<table>
 			<tr>
 				<td>
@@ -27,18 +36,19 @@
 				</td>
 				<td>&nbsp;</td>
 				<td>
-					<span id="btnAbout"><img class="ImgBtn" src="images/about.png"></span> &nbsp;
-					<span id="btnContact"><img class="ImgBtn" src="images/twitter.png"></span> &nbsp;
-					<span id="btnExport"><img class="ImgBtn" src="images/excel.png"></span>
+					<div id="btnAbout" class="button">About</div>
+					<div id="btnContact" class="button">Contact</div>
+					<div id="btnExport" class="button">Export</div>
 				</td>
 				<td id="tdRecord">
 					<?php // include "record.php"; ?>
 				</td>
+-->
 			</tr>
 		</table>
 		</br>
 		<div class="heading">
-			Computerized picks for games on
+			Computerized predictions for 
 			<?php
 				$NYdate = new DateTime("now", new DateTimeZone('America/New_York') );
 				echo $NYdate->format("l, F jS, Y");
@@ -55,7 +65,7 @@
 		from games g
 			inner join teams away on away.code = g.AwayTeam and away.league = 'NFL'
 			inner join teams home on home.code = g.HomeTeam and home.league = 'NFL'
-		where g.league = 'NFL'
+		where g.league = 'NFL' and g.GameType <> '--'
 			and GameDate between '" . $week["StartDate"] . "' and '" . $week["EndDate"] . "'
 		order by g.GameDate, g.id	; ";
 	drawGameHTML($conn, $GamesSQL, $title);
@@ -70,7 +80,7 @@
 			from games g
 				inner join teams away on away.code = g.AwayTeam and away.league = '$league'
 				inner join teams home on home.code = g.HomeTeam and home.league = '$league'
-			where g.GameDate = curdate() and g.league = '$league'; ";
+			where g.GameDate = curdate() and g.GameType <> '--' and g.league = '$league'; ";
 		drawGameHTML($conn, $GamesSQL, "<div class='heading'>$league</div>");
 	}
 
