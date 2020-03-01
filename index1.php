@@ -84,13 +84,13 @@
 		{
 			?>
 				<script>
-$("#tabs").append("<tab id='tab<?php echo $title ?>' class='tabs heading' onclick='$(\".tabs\").removeClass(\"ActiveTab\"); $(\"#tab<?php echo $title ?>\").addClass(\"ActiveTab\"); $(\".league\").hide(); $(\"#<?php echo $title ?>\").fadeIn(333);'><?php echo $title ?></tab> ");
+					appendTab('<?php echo $title ?>');
 				</script>
 			<?php
 			$GLOBALS['numDisplayedDivs'] ++ ;
 
 			$counter = 0;
-			$HTML = "<div class='league' id='".$title."' ";
+			$HTML = "<div class='tabContent' id='".$title."' ";
 			if ($GLOBALS['numDisplayedDivs'] == 1)
 				$HTML.="style='display:block;'";
 			else
@@ -149,9 +149,10 @@ $("#tabs").append("<tab id='tab<?php echo $title ?>' class='tabs heading' onclic
 			}
 			$HTML .= "</table> </div>";
 			echo $HTML;
+			if ($GLOBALS['numDisplayedDivs'] == 1)
+				echo "<script> $('#tab".$title."').addClass('activeTab'); </script> ";
 		}
 	}
-
 ?>
 	</body>
 </html>

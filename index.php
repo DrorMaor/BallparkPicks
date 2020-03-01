@@ -20,48 +20,34 @@
 			include "DbConn.php";
 			$traffic = "insert into traffic (IP, referer, URL) values ('". $_SERVER['REMOTE_ADDR'] . "', '" . $_SERVER['HTTP_REFERER'] . "', '" . $_SERVER['REQUEST_URI'] . "');";
 			$conn->query($traffic);
-			if ($_SERVER['REQUEST_URI'] != '/')
-				mail('dror.m.maor@gmail.com', 'URI alert', $_SERVER['REQUEST_URI']);
-
-			include "divs.php";
 		?>
-		<br>
 		<img src="images/tzefi.png" />
 		<br>
-<!--
-		<table>
-			<tr>
-				<td>
-					<img src="images/banner.png" style="vertical-align: middle;">
-				</td>
-				<td>&nbsp;</td>
-				<td>
-					<div id="btnAbout" class="button">About</div>
-					<div id="btnContact" class="button">Contact</div>
-					<div id="btnExport" class="button">Export</div>
-				</td>
-				<td id="tdRecord">
-					<?php // include "record.php"; ?>
-				</td>
-
-			</tr>
-		</table>
--->
-		</br>
 		<div class="heading">
 			Computerized predictions for 
 			<?php
 				$NYdate = new DateTime("now", new DateTimeZone('America/New_York') );
 				echo $NYdate->format("l, F jS, Y");
 			?>
+			<div style="font-size:12px; font-style: italic; padding-top:5px;">
+				Disclaimer: This site is for informational use only. Our algorithms are not prophetic. Be careful if investing financially.
+			</div>
 		</div>
-		</br>
+		<br>
+		<div style="margin:auto; width:50%;"  id="tabs"></div>
+		<br>
+		<div>&nbsp;</div>
+		<br>
 <?php
+	// # of displayed divs
+	// (the first one by default will be shown, but the others are hidden unless clicked)
+	$numDisplayedDivs = 0;
+
+
 	// NFL
 	$WeekSQL = "select StartDate, EndDate, week from NFLweeks where curdate() between StartDate and EndDate; ";
 	$weeks = $conn->query($WeekSQL);
 	$week = $weeks->fetch_assoc();
-	$title = "<div class='heading'>NFL Week " . $week["week"] . "</div>";
 	$GamesSQL = "select g.*, away.name as AwayTeamName, home.name as HomeTeamName
 		from games g
 			inner join teams away on away.code = g.AwayTeam and away.league = 'NFL'
@@ -69,7 +55,7 @@
 		where g.league = 'NFL' and g.GameType <> '--'
 			and GameDate between '" . $week["StartDate"] . "' and '" . $week["EndDate"] . "'
 		order by g.GameDate, g.id	; ";
-	drawGameHTML($conn, $GamesSQL, $title);
+	drawGameHTML($conn, $GamesSQL, "NFL Week " . $week["week"]);
 
 
 
@@ -82,12 +68,10 @@
 				inner join teams away on away.code = g.AwayTeam and away.league = '$league'
 				inner join teams home on home.code = g.HomeTeam and home.league = '$league'
 			where g.GameDate = curdate() and g.GameType <> '--' and g.league = '$league'; ";
-		drawGameHTML($conn, $GamesSQL, "<div class='heading'>$league</div>");
+		drawGameHTML($conn, $GamesSQL, $league);
 	}
-
-
-
 	$conn->close();
+
 
 
 	// ----------------------- //
@@ -98,9 +82,22 @@
 		$games = $conn->query($GamesSQL);
 		if ($games->num_rows > 0)
 		{
+			?>
+				<script>
+					appendTab('<?php echo $title ?>');
+				</script>
+			<?php
+			$GLOBALS['numDisplayedDivs'] ++ ;
+
 			$counter = 0;
-			$HTML = "<table> ";
-			$HTML .= "<tr><td colspan='4' style='text-align:center;'>".$title."</td></tr>";
+			$HTML = "<div class='tabContent' id='".$title."' ";
+			if ($GLOBALS['numDisplayedDivs'] == 1)
+				$HTML.="style='display:block;'";
+			else
+				$HTML.="style='display:none;'";
+			$HTML.=">";
+
+			$HTML .= "<table>";
 			while ($game = $games->fetch_assoc())
 			{
 				if ($game["AwayScorePick"] > $game["HomeScorePick"])
@@ -150,11 +147,13 @@
 					$HTML .= "</tr> ";
 				$counter++;
 			}
-			$HTML .= "</table> <br>";
+			$HTML .= "</table> </div>";
 			echo $HTML;
+			if ($GLOBALS['numDisplayedDivs'] == 1)
+				echo "<script> $('#tab".$title."').addClass('activeTab'); </script> ";
 		}
 	}
-
 ?>
 	</body>
 </html>
+

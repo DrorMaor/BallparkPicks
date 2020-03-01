@@ -43,3 +43,13 @@ $(document).ready(function(){
         $("#divContact").fadeOut(333);
     });
 });
+
+
+function appendTab(title) {
+	var tab = "<tab id='tab" + title + "' class='tabs heading' ";
+	tab += "onclick='$(\".tabs\").removeClass(\"activeTab\"); ";
+	tab += "$(\"#tab" + title + "\").addClass(\"activeTab\"); ";
+	tab += "$(\".tabContent\").hide(); $(\"#" + title + "\").fadeIn(333);' ";
+	tab += ">" + title + "</tab> ";
+	$("#tabs").append(tab);
+}
