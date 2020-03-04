@@ -5,44 +5,25 @@
 
 	class NBA_TeamData {
 		public $team;
-		public $G;
-		public $Pt2P;
-		public $Pt3P;
-		public $FTP;
-		public $RB;
-		public $STL;
-		public $BLK;
-		public $TOV;
-		public $PF;
-		public $P;
+		public $W;
+		public $L;
+		public $PSG;
+		public $PAG;
 
-		function __construct ($team, $G, $Pt2P, $Pt3P, $FTP, $RB, $STL, $BLK, $TOV, $PF, $P)
+		function __construct ($team, $W, $L, $PSG, $PAG)
 		{
 			$this->team = $team;
-			$this->G = $G;
-			$this->Pt2P = $Pt2P;
-			$this->Pt3P = $Pt3P;
-			$this->FTP = $FTP;
-			$this->RB = $RB;
-			$this->STL = $STL;
-			$this->BLK = $BLK;
-			$this->TOV = $TOV;
-			$this->PF = $PF;
-			$this->P = $P;
+			$this->W = $W;
+			$this->L = $L;
+			$this->PSG = $PSG;
+			$this->PAG = $PAG;
 		}
 	}
 
 	function Get_NBA_Grade($team)
 	{
-		$grade = ($team->Pt2P * 1000);
-		$grade += ($team->Pt3P * 1000);
-		$grade += ($team->FTP * 1000);
-		$grade += $team->RB;
-		$grade += $team->STL;
-		$grade += $team->BLK;
-		$grade += $team->TOV;
-		$grade -= ($team->PF * 2);
-		$grade += $team->P;
+		$grade = ($team->W * 10) - ($team->L * 10);
+		$grade += $team->PSG - $team->PAG;
 		return $grade;
 	}
 
@@ -50,8 +31,7 @@
 	{
 		if (strlen(trim($team->team)) == 3)
 		{
-			// average points per game
-			$points = ceil($team->P / $team->G);
+			$points = ceil($team->PSG);
 			$points += rand(-10, 10);
 			if ($points >= 130)
 				$points -= rand(3, 5);
@@ -74,9 +54,9 @@
 		foreach ($stats as $stat)
 		{
 			$statsExplode = explode(", ", $stat);
-			if (sizeof($statsExplode) == 11)
+			if (sizeof($statsExplode) == 5)
 			{
-				$team = new NBA_TeamData("", "", "", "", "", "", "", "", "", "", "");
+				$team = new NBA_TeamData("", "", "", "", "");
 				foreach ($statsExplode as $statsEach)
 				{
 					$statsEachSplit = explode(":", $statsEach);
@@ -87,35 +67,17 @@
 						case "team":
 							$team->team = $val;
 							break;
-						case "G":
-							$team->G = $val;
+						case "W":
+							$team->W = $val;
 							break;
-						case "Pt2P":
-							$team->Pt2P = $val;
+						case "L":
+							$team->L = $val;
 							break;
-						case "Pt3P":
-							$team->Pt3P = $val;
+						case "PSG":
+							$team->PSG = $val;
 							break;
-						case "FTP":
-							$team->FTP = $val;
-							break;
-						case "RB":
-							$team->RB = $val;
-							break;
-						case "STL":
-							$team->STL = $val;
-							break;
-						case "BLK":
-							$team->BLK = $val;
-							break;
-						case "TOV":
-							$team->TOV = $val;
-							break;
-						case "PF":
-							$team->PF = $val;
-							break;
-						case "P":
-							$team->P = $val;
+						case "PAG":
+							$team->PAG = $val;
 							break;
 					}
 				}

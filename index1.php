@@ -17,11 +17,16 @@
 	</head>
 	<body>
 		<?php 
+			if ($_SERVER['REQUEST_URI'] != "/" && $_SERVER['REQUEST_URI'] != "/index1.php")
+                                die();
+
 			include "DbConn.php";
 			$traffic = "insert into traffic (IP, referer, URL) values ('". $_SERVER['REMOTE_ADDR'] . "', '" . $_SERVER['HTTP_REFERER'] . "', '" . $_SERVER['REQUEST_URI'] . "');";
 			$conn->query($traffic);
 		?>
 		<img src="images/tzefi.png" />
+		&nbsp;
+		<a href="https://twitter.com/tzefi2?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-size="large" data-show-screen-name="false" data-show-count="false">Follow @tzefi2</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 		<br>
 		<div class="heading">
 			Computerized predictions for 

@@ -20,11 +20,15 @@
 	cursor: pointer;
 }
 .activeTab {
-	background-color:#b9bbc9;
+	border: 1px solid #0F1C46;
+	border-width: 1px 1px 0 1px;
+	border-bottom: 2px white solid;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
 }
 .tabContent {
 	padding: 15px;
-	border: 1px solid #b9bbc9;
+	border: 1px solid #0F1C46;
 }
 
 .heading {

@@ -1,3 +1,7 @@
+<?php
+if ($_SERVER['REQUEST_URI'] != "/") die();
+?>
+
 <html>
 	<head>
 		<!-- Global site tag (gtag.js) - Google Analytics -->
@@ -21,7 +25,17 @@
 			$traffic = "insert into traffic (IP, referer, URL) values ('". $_SERVER['REMOTE_ADDR'] . "', '" . $_SERVER['HTTP_REFERER'] . "', '" . $_SERVER['REQUEST_URI'] . "');";
 			$conn->query($traffic);
 		?>
-		<img src="images/tzefi.png" />
+		<table>
+			<tr>
+				<td><img src="images/tzefi.png" /></td>
+				<td>
+					<a href="https://twitter.com/tzefi2?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-size="large" data-show-screen-name="false" data-show-count="false">Follow @tzefi2</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<!--					<br>
+					<a href="https://twitter.com/messages/compose?recipient_id=&ref_src=twsrc%5Etfw" class="twitter-dm-button" data-screen-name="@tzefi2" data-show-count="false">Message @@tzefi2</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+-->
+				</td>
+			</tr>
+		</table>
 		<br>
 		<div class="heading">
 			Computerized predictions for 
