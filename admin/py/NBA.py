@@ -46,9 +46,8 @@ for stat in AllStats:
         if index == 5:  W = AllStats[StatCounter]
         if index == 7:  L = AllStats[StatCounter]
         if index == 13: PSG = AllStats[StatCounter]
-        if index == 15: 
+        if index == 15:
             PAG = AllStats[StatCounter]
-            P = AllStats[StatCounter]
             teamData = TeamData(team, W, L, PSG, PAG)
             AllTeamsData.append(teamData)
 
