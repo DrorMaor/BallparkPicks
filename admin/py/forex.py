@@ -3,14 +3,17 @@ import requests
 import re
 import datetime
 import urllib
-url = "https://www.exchange-rates.org/history/ILS/USD/T"
+import sys
+
+url = "https://www.exchange-rates.org/history/" + sys.argv[1] + "/" + sys.argv[2] + "/T"
+print url
 page = urllib.urlopen(url).read()
 tableData = page[page.find("The table below") : page.find("The table above")]
 tableData = tableData[tableData.find("<tbody>") : ]
 soup = BeautifulSoup(tableData, 'lxml')
 rows = soup.findAll("tr")
 rates = re.findall(">(.*?)<", str(rows), flags=0)
-#print rates
+
 
 index = 0
 counter = 0
