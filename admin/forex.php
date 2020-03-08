@@ -8,6 +8,7 @@
 	{
 		$forex = Get_ForexData($pair);
 		$rate = PredictRate(array_reverse($forex));
+		print_r ($rate);
 	}
 
 	function PredictRate($forex)
@@ -15,15 +16,16 @@
 		$change = 0;
 		for ($i=2; $i<count($forex); $i++)
 			$change += (($forex[$i] - $forex[$i-1]) * $i);
+		$rate = [];
 		$rate[0] = end($forex) + $change / $i;
-		$rate[1] = ($change > 0);  // true UP, false DOWN
+		$rate[1] = ($change > 0) ? "UP" : "DOWN";
 		return $rate;
 	}
 
 	function Get_ForexData($pair)
 	{
 		$coins = explode("/", $pair);
-		$fullData = shell_exec("python py/forex.py " + $pair[0] + " " + $pair[1]);
+		$fullData = shell_exec("python py/forex.py " . $coins[0] . " " . $coins[1]);
 		$fullData = str_replace("[", "", $fullData);
 		$fullData = str_replace("]", "", $fullData);
 		$fullData = str_replace("'", "", $fullData);
@@ -34,7 +36,7 @@
 		{
 			if ($counter % 2 == 1)
 			{
-				$rate = str_replace(" " + $pair[0], "", $day);
+				$rate = str_replace(" " . $coins[0], "", $day);
 				array_push($forex, $rate);
 			}
 			$counter++;

@@ -6,7 +6,7 @@ import urllib
 import sys
 
 url = "https://www.exchange-rates.org/history/" + sys.argv[1] + "/" + sys.argv[2] + "/T"
-print url
+#print url
 page = urllib.urlopen(url).read()
 tableData = page[page.find("The table below") : page.find("The table above")]
 tableData = tableData[tableData.find("<tbody>") : ]
