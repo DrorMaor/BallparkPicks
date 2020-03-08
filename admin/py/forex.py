@@ -5,7 +5,7 @@ import datetime
 import urllib
 import sys
 
-url = "https://www.exchange-rates.org/history/" + sys.argv[1] + "/" + sys.argv[2] + "/T"
+url = "https://www.exchange-rates.org/history/" + sys.argv[2] + "/" + sys.argv[1] + "/T"
 #print url
 page = urllib.urlopen(url).read()
 tableData = page[page.find("The table below") : page.find("The table above")]

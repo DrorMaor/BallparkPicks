@@ -1,3 +1,8 @@
+<?php
+	if ($_SERVER['REQUEST_URI'] != "/" && $_SERVER['REQUEST_URI'] != "/index1.php")
+        	die();
+?>
+
 <html>
 	<head>
 		<!-- Global site tag (gtag.js) - Google Analytics -->
@@ -16,10 +21,7 @@
 		<link rel="stylesheet" href="styles.css">
 	</head>
 	<body>
-		<?php 
-			if ($_SERVER['REQUEST_URI'] != "/" && $_SERVER['REQUEST_URI'] != "/index1.php")
-                                die();
-
+		<?php
 			include "DbConn.php";
 			$traffic = "insert into traffic (IP, referer, URL) values ('". $_SERVER['REMOTE_ADDR'] . "', '" . $_SERVER['HTTP_REFERER'] . "', '" . $_SERVER['REQUEST_URI'] . "');";
 			$conn->query($traffic);
@@ -75,6 +77,9 @@
 			where g.GameDate = curdate() and g.GameType <> '--' and g.league = '$league'; ";
 		drawGameHTML($conn, $GamesSQL, $league);
 	}
+
+	drawForexHTML($conn);
+
 	$conn->close();
 
 
@@ -82,16 +87,13 @@
 	// ----------------------- //
 
 
+
 	function drawGameHTML($conn, $GamesSQL, $title)
 	{
 		$games = $conn->query($GamesSQL);
 		if ($games->num_rows > 0)
 		{
-			?>
-				<script>
-					appendTab('<?php echo $title ?>');
-				</script>
-			<?php
+			echo "<script> appendTab('".$title."'); </script>";
 			$GLOBALS['numDisplayedDivs'] ++ ;
 
 			$counter = 0;
@@ -158,6 +160,53 @@
 				echo "<script> $('#tab".$title."').addClass('activeTab'); </script> ";
 		}
 	}
+
+
+	function drawForexHTML($conn)
+	{
+		$SQL = $conn->query("select * from forex where theDate = curdate();");
+		if ($SQL->num_rows > 0)
+			echo "<script> appendTab('Forex'); </script>";
+		$GLOBALS['numDisplayedDivs'] ++ ;
+
+		$counter = 0;
+		$HTML = "<div class='tabContent' id='Forex' ";
+		if ($GLOBALS['numDisplayedDivs'] == 1)
+			$HTML.="style='display:block;'";
+		else
+			$HTML.="style='display:none;'";
+		$HTML .= ">";
+
+		$HTML .= "<table>";
+		while ($row = $SQL->fetch_assoc())
+		{
+			if ($counter % 4 == 0 && $counter > 0)
+			{
+				$counter = 0;
+				$HTML .= "<tr> ";
+			}
+			$HTML .= "<td class='game'>";
+			$HTML .= "<table style='width:100%;'>";
+			$HTML .= "<tr> <td class='team'>".$row['base']."/".$row['quote']."</td> </tr>";
+			$HTML .= "<tr> <td class='team";
+			if ($row["UpDown"] == "UP")
+				$HTML .= " winner";
+			$HTML .= "'>".$row['rate']." &nbsp; "; //<img src='images/".$row['UpDown'].".png'></td>";
+			$HTML .= ($row["UpDown"] == "UP") ? "&uarr;" : "&darr;";
+			$HTML .= "</td> </tr>";
+			$HTML .= "</table>";
+			$HTML .= "</td>";
+			if ($counter % 5 == 0 && $counter > 1)
+				$HTML .= "</tr> ";
+			$counter++;
+		}
+		$HTML .= "</table> </div>";
+		echo $HTML;
+		if ($GLOBALS['numDisplayedDivs'] == 1)
+			echo "<script> $('#tabForex').addClass('activeTab'); </script> ";
+	}
+
+
 ?>
 	</body>
 </html>

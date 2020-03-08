@@ -2,13 +2,16 @@
 <?php
 	ini_set('display_errors', 1); ini_set('display_startup_errors', 1); error_reporting(E_ALL);
 
-	//include("../DbConn.php");
+	include("../DbConn.php");
 	$pairs = array("EUR/USD", "USD/JPY", "GBP/USD", "AUD/USD", "USD/CHF", "NZD/USD", "USD/CAD");
 	foreach ($pairs as $pair)
 	{
 		$forex = Get_ForexData($pair);
 		$rate = PredictRate(array_reverse($forex));
-		print_r ($rate);
+		$coins = explode("/", $pair);
+		$sql = "insert into forex (base, quote, theDate, rate, UpDown) ";
+		$sql .= "values ('" . $coins[0] . "', '" . $coins[1] . "', curdate(), " . $rate[0] . ", '" . $rate[1] . "' ); ";
+		$conn->query($sql);
 	}
 
 	function PredictRate($forex)
@@ -43,5 +46,6 @@
 		}
 		return $forex;
 	}
-	//$conn->close();
+
+	$conn->close();
 ?>
