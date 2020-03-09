@@ -19,6 +19,10 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 		<script src="scripts.js"></script>
 		<link rel="stylesheet" href="styles.css">
+
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="HandheldFriendly" content="true">
 	</head>
 	<body>
 		<?php
@@ -180,6 +184,31 @@
 		$HTML .= "<table>";
 		while ($row = $SQL->fetch_assoc())
 		{
+			$nickname = "";
+			switch ($row["base"]."/".$row["quote"])
+			{
+				case "EUR/USD":
+					$nickname = "Euro";
+					break;
+                                case "USD/JPY":
+                                        $nickname = "Gopher";
+                                        break;
+				case "GBP/USD":
+                                        $nickname = "Cable";
+                                        break;
+				case "USD/CHF":
+                                        $nickname = "Swissie";
+                                        break;
+				case "AUD/USD":
+                                        $nickname = "Aussie";
+                                        break;
+				case "USD/CAD":
+                                        $nickname = "Loonie";
+                                        break;
+				case "NZD/USD":
+                                        $nickname = "Kiwi";
+                                        break;
+			}
 			if ($counter % 4 == 0 && $counter > 0)
 			{
 				$counter = 0;
@@ -187,7 +216,8 @@
 			}
 			$HTML .= "<td class='game'>";
 			$HTML .= "<table style='width:100%;'>";
-			$HTML .= "<tr> <td class='team'>".$row['base']."/".$row['quote']."</td> </tr>";
+			$HTML .= "<tr> <td class='team'>".$row['base']."/".$row['quote'];
+			$HTML .= "<span class='team' style='font-style:italic;'>(".$nickname.") </span> </td> </tr>";
 			$HTML .= "<tr> <td class='team";
 			if ($row["UpDown"] == "UP")
 				$HTML .= " winner";

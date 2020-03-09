@@ -18,7 +18,7 @@
 	{
 		$change = 0;
 		for ($i=2; $i<count($forex); $i++)
-			$change += (($forex[$i] - $forex[$i-1]) * $i);
+			$change += $forex[$i] - $forex[$i-1] ;
 		$rate = [];
 		$rate[0] = end($forex) + $change / $i;
 		$rate[1] = ($change > 0) ? "UP" : "DOWN";
@@ -39,7 +39,7 @@
 		{
 			if ($counter % 2 == 1)
 			{
-				$rate = str_replace(" " . $coins[0], "", $day);
+				$rate = str_replace(" " . $coins[1], "", $day);
 				array_push($forex, $rate);
 			}
 			$counter++;
