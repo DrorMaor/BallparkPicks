@@ -17,13 +17,23 @@
 		<title>Tzefi - Accurate Predictions</title>
 		<link rel="shortcut icon" href="favicon.ico" />
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-		<script src="scripts.js"></script>
-		<link rel="stylesheet" href="styles.css">
+		<link rel="stylesheet" type="text/css" href="styles.css">
 
 		<!-- make responsive -->
 		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta name="HandheldFriendly" content="true">
+
+		<script>
+			function appendTab(title) {
+			        var tab = "<tab id='tab" + title + "' class='tabs heading' ";
+			        tab += "onclick='$(\".tabs\").removeClass(\"activeTab\"); ";
+			        tab += "$(\"#tab" + title + "\").addClass(\"activeTab\"); ";
+			        tab += "$(\".tabContent\").hide(); $(\"#" + title + "\").fadeIn(200);' ";
+			        tab += ">" + title + "</tab> ";
+			        $("#tabs").append(tab);
+			}
+		</script>
 	</head>
 	<body>
 		<?php
@@ -35,8 +45,8 @@
 		&nbsp;
 		<a href="https://twitter.com/tzefi2?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-size="large" data-show-screen-name="false" data-show-count="false">Follow @tzefi2</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 		<br>
-		<div class="heading">
-			Computerized predictions for 
+		<div class="heading" style="padding-top:7px;">
+			Computerized <span style="border:2px solid #0F1C46; border-radius:3px; padding:3px;">predictions</span> for 
 			<?php
 				$NYdate = new DateTime("now", new DateTimeZone('America/New_York') );
 				echo $NYdate->format("l, F jS, Y");
@@ -169,9 +179,8 @@
 
 	function drawForexHTML($conn)
 	{
-		$SQL = $conn->query("select * from forex where theDate = curdate();");
-		if ($SQL->num_rows > 0)
-			echo "<script> appendTab('Forex'); </script>";
+		$SQL = $conn->query("select * from forex order by id desc limit 7;"); // this will always show the last Major 7, even on non transaction days
+		echo "<script> appendTab('Forex'); </script>";
 		$GLOBALS['numDisplayedDivs'] ++ ;
 
 		$counter = 0;
@@ -184,6 +193,9 @@
 
 		$HTML .= "<table>";
 		while ($row = $SQL->fetch_assoc())
+			$rows[] = $row;
+		$rows = array_reverse($rows, true);
+		foreach ($rows as $row)
 		{
 			$nickname = "";
 			switch ($row["base"]."/".$row["quote"])
