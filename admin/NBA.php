@@ -86,7 +86,7 @@
 		}
 
 		// get this week's games
-		$sql = "select * from games where GameDate = '" . $GameDate . "' and league = 'NBA'; ";
+		$sql = "select * from games where GameDate = '" . $GameDate . "' and league = 'NBA' and GameType = 'RS'; ";
 		$results = $conn->query($sql) or die($conn->error);
 		$update_multi_sql = "";
 		while ($row = $results->fetch_assoc())

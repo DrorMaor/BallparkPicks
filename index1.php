@@ -14,6 +14,8 @@
 
 			gtag('config', 'UA-20157082-8');
 		</script>
+		<script data-ad-client="ca-pub-9172347417963561" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
 		<title>Tzefi - Accurate Predictions</title>
 		<link rel="shortcut icon" href="favicon.ico" />
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -33,6 +35,21 @@
 			        tab += ">" + title + "</tab> ";
 			        $("#tabs").append(tab);
 			}
+
+			$(document).ready(function() 
+			{
+				$("#btnGetPick").click(function() {
+					var base = $("#selBase").val();
+					var quote = $("#selQuote").val();
+					if (base == quote)
+						alert("You have chosen the same currency");
+					else
+					{
+						var url = "https://www.exchange-rates.org/history/" + base + "/" + quote + "/T";
+						window.location.replace(url);
+					}
+				});
+			});
 		</script>
 	</head>
 	<body>
@@ -114,7 +131,7 @@
 			$counter = 0;
 			$HTML = "<div class='tabContent' id='".$title."' ";
 			if ($GLOBALS['numDisplayedDivs'] == 1)
-				$HTML.="style='display:block;'";
+				$HTML.="style='display:inline;'";
 			else
 				$HTML.="style='display:none;'";
 			$HTML.=">";
@@ -186,7 +203,7 @@
 		$counter = 0;
 		$HTML = "<div class='tabContent' id='Forex' ";
 		if ($GLOBALS['numDisplayedDivs'] == 1)
-			$HTML.="style='display:block;'";
+			$HTML.="style='display:inline;'";
 		else
 			$HTML.="style='display:none;'";
 		$HTML .= ">";
@@ -243,14 +260,40 @@
 				$HTML .= "</tr> ";
 			$counter++;
 		}
+		$HTML .= "</tr> <tr> <td class='game team'> Others <br>";
+		$HTML .= AddAllForex($conn, 'Base');
+		$HTML .= AddAllForex($conn, 'Quote');
+		$HTML .= "<button id='btnGetPick'>Get Prediction</button> </td> </tr>";
 		$HTML .= "</table> </div>";
 		echo $HTML;
 		if ($GLOBALS['numDisplayedDivs'] == 1)
 			echo "<script> $('#tabForex').addClass('activeTab'); </script> ";
 	}
 
-
+	function AddAllForex($conn, $id)
+	{
+		$HTML = "<select id = 'sel".$id."'>";
+		$rows = $conn->query("select * from AllCurrencies order by full;");
+		while ($row = $rows->fetch_assoc())
+			$HTML .= "<option value='". $row["short"]. "'>".$row["full"]."</option>";
+		$HTML.= "</select> <br>";
+		return $HTML;
+	}
 ?>
+	<br>
+
+	<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+	<!-- tzefi -->
+	<ins class="adsbygoogle"
+	     style="display:block"
+	     data-ad-client="ca-pub-9172347417963561"
+	     data-ad-slot="2673687963"
+	     data-ad-format="auto"
+	     data-full-width-responsive="true"></ins>
+	<script>
+	     (adsbygoogle = window.adsbygoogle || []).push({});
+	</script>
+
 	</body>
 </html>
 

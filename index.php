@@ -14,6 +14,8 @@
 
 			gtag('config', 'UA-20157082-8');
 		</script>
+		<script data-ad-client="ca-pub-9172347417963561" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
 		<title>Tzefi - Accurate Predictions</title>
 		<link rel="shortcut icon" href="favicon.ico" />
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -54,6 +56,9 @@
 			<div style="font-size:12px; font-style: italic; padding-top:5px;">
 				Disclaimer: This site is for informational use only. Our algorithms are not prophetic. Be careful if investing financially.
 			</div>
+			<div style="font-size:14px; color:red; font-weight:bold; padding-top:7px;">
+				Due to the Coronovirus, the NBA season has been suspended
+			</div>
 		</div>
 		<br>
 		<div id="tabs"></div>
@@ -89,7 +94,7 @@
 			from games g
 				inner join teams away on away.code = g.AwayTeam and away.league = '$league'
 				inner join teams home on home.code = g.HomeTeam and home.league = '$league'
-			where g.GameDate = curdate() and g.GameType <> '--' and g.league = '$league'; ";
+			where g.GameDate = curdate() and g.GameType not in ('CV', '--') and g.league = '$league'; ";
 		drawGameHTML($conn, $GamesSQL, $league);
 	}
 
@@ -114,7 +119,7 @@
 			$counter = 0;
 			$HTML = "<div class='tabContent' id='".$title."' ";
 			if ($GLOBALS['numDisplayedDivs'] == 1)
-				$HTML.="style='display:block;'";
+				$HTML.="style='display:inline;'";
 			else
 				$HTML.="style='display:none;'";
 			$HTML.=">";
@@ -186,7 +191,7 @@
 		$counter = 0;
 		$HTML = "<div class='tabContent' id='Forex' ";
 		if ($GLOBALS['numDisplayedDivs'] == 1)
-			$HTML.="style='display:block;'";
+			$HTML.="style='display:inline;'";
 		else
 			$HTML.="style='display:none;'";
 		$HTML .= ">";
@@ -251,6 +256,20 @@
 
 
 ?>
+	<br>
+
+	<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+	<!-- tzefi -->
+	<ins class="adsbygoogle"
+	     style="display:block"
+	     data-ad-client="ca-pub-9172347417963561"
+	     data-ad-slot="2673687963"
+	     data-ad-format="auto"
+	     data-full-width-responsive="true"></ins>
+	<script>
+	     (adsbygoogle = window.adsbygoogle || []).push({});
+	</script>
+
 	</body>
 </html>
 

@@ -10,7 +10,10 @@
 		$hashtags = "";
 		$tweet = "Here are some #forex predictions for today:\r\n\r\n";
 		while ($row = $results->fetch_assoc())
-			$tweet .= $row['base'] . "/" . $row['quote'] . ": " . $row["rate"] . " " . $row["UpDown"] . "\r\n";
+		{
+			$tweet .= $row['base'] . "/" . $row['quote'] . ": " . $row["rate"] . " ";
+			$tweet .= ($row["UpDown"] == "UP") ? "+" : "-") . "\r\n";
+		}
 		$tweet.= "\r\nThe rest can be found on https://www.tzefi.com \r\n\r\n";
 		$tweet.= "#EURUSD\r\n#USDJPY\r\n#GBPUSD\r\n#AUDUSD\r\n#USDCHF\r\n#NZDUSD\r\n#USDCAD\r\n";
 
