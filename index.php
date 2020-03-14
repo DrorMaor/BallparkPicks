@@ -14,8 +14,9 @@
 
 			gtag('config', 'UA-20157082-8');
 		</script>
+		<!--
 		<script data-ad-client="ca-pub-9172347417963561" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
+		-->
 		<title>Tzefi - Accurate Predictions</title>
 		<link rel="shortcut icon" href="favicon.ico" />
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -48,7 +49,7 @@
 		<a href="https://twitter.com/tzefi2?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-size="large" data-show-screen-name="false" data-show-count="false">Follow @tzefi2</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 		<br>
 		<div class="heading" style="padding-top:7px;">
-			Computerized <span style="border:2px solid #0F1C46; border-radius:3px; padding:3px;">predictions</span> for 
+			Computerized <span style="border:2px solid #0F1C46; border-radius:3px; padding:3px;">predictions</span> for
 			<?php
 				$NYdate = new DateTime("now", new DateTimeZone('America/New_York') );
 				echo $NYdate->format("l, F jS, Y");
@@ -208,42 +209,57 @@
 				case "EUR/USD":
 					$nickname = "Euro";
 					break;
-                                case "USD/JPY":
-                                        $nickname = "Gopher";
-                                        break;
+                case "USD/JPY":
+                    $nickname = "Gopher";
+                    break;
 				case "GBP/USD":
-                                        $nickname = "Cable";
-                                        break;
+                    $nickname = "Cable";
+                    break;
 				case "USD/CHF":
-                                        $nickname = "Swissie";
-                                        break;
+                    $nickname = "Swissie";
+                    break;
 				case "AUD/USD":
-                                        $nickname = "Aussie";
-                                        break;
+                    $nickname = "Aussie";
+                    break;
 				case "USD/CAD":
-                                        $nickname = "Loonie";
-                                        break;
+                    $nickname = "Loonie";
+                    break;
 				case "NZD/USD":
-                                        $nickname = "Kiwi";
-                                        break;
+                    $nickname = "Kiwi";
+                    break;
 			}
 			if ($counter % 4 == 0 && $counter > 0)
 			{
 				$counter = 0;
 				$HTML .= "<tr> ";
 			}
+
 			$HTML .= "<td class='game'>";
-			$HTML .= "<table style='width:100%;'>";
-			$HTML .= "<tr> <td class='team'>".$row['base']."/".$row['quote'];
-			$HTML .= "<span class='team' style='font-style:italic;'>(".$nickname.") </span> </td> </tr>";
-			$HTML .= "<tr> <td class='team";
-			if ($row["UpDown"] == "UP")
-				$HTML .= " winner";
-			$HTML .= "'>".$row['rate']." &nbsp; "; //<img src='images/".$row['UpDown'].".png'></td>";
-			$HTML .= ($row["UpDown"] == "UP") ? "&uarr;" : "&darr;";
-			$HTML .= "</td> </tr>";
-			$HTML .= "</table>";
+			$HTML .= " <table>";
+			$HTML .= "  <tr>";
+			$HTML .= "   <td>";
+			$HTML .= "    <img class='flag' src='logos/flags/".$row["base"].".png'> <br>";
+			$HTML .= "    <img class='flag' src='logos/flags/".$row["quote"].".png'>";
+			$HTML .= "   </td>";
+			$HTML .= "   <td>";
+			$HTML .= "    <table style='width:100%;'>";
+			$HTML .= "     <tr>";
+			$HTML .= "      <td class='team'>".$row['base']."/".$row['quote'];
+			$HTML .= "       <span class='team' style='font-style:italic;'>(".$nickname.") </span>";
+			$HTML .= "      </td>";
+			$HTML .= "     </tr>";
+			$HTML .= "     <tr>";
+			$HTML .= "      <td class='team" . (($row["UpDown"] == "UP") ? " winner" : "") . "'>";
+			$HTML .=         $row["rate"] . " &nbsp;";
+			$HTML .=         ($row["UpDown"] == "UP") ? "&uarr;" : "&darr;";
+			$HTML .= "      </td>";
+			$HTML .= "     </tr>";
+			$HTML .= "    </table>";
+			$HTML .= "   </td>";
+			$HTML .= "  </tr>";
+			$HTML .= " </table>";
 			$HTML .= "</td>";
+
 			if ($counter % 5 == 0 && $counter > 1)
 				$HTML .= "</tr> ";
 			$counter++;

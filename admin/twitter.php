@@ -8,7 +8,8 @@
 		select AwayTeam.name as AwayTeam, g.AwayScorePick, HomeTeam.name as HomeTeam, g.HomeScorePick from games g
 			inner join teams AwayTeam on AwayTeam.code = g.AwayTeam and AwayTeam.league = '" . $league . "'
 			inner join teams HomeTeam on HomeTeam.code = g.HomeTeam and HomeTeam.league = '" . $league . "'
-		where g.GameDate = curdate() and g.league = '" . $league . "' order by g.id limit 3; ";
+		where g.GameDate = curdate() and g.league = '" . $league . "' and GameType not in ('CV', '--')
+		order by g.id limit 3; ";
 	$results = $conn->query($sql) or die($conn->error);
 	if ($results->num_rows >0)
 	{
