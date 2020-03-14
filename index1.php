@@ -36,8 +36,15 @@
 			        $("#tabs").append(tab);
 			}
 
-			$(document).ready(function() 
+			$(document).ready(function()
 			{
+				$("#imgSwitch").click(function() {
+					var base = $("#selBase").val();
+                                        var quote = $("#selQuote").val();
+					$("#selBase").val(quote);
+					$("#selQuote").val(base);
+				});
+
 				$("#btnGetPick").click(function() {
 					var base = $("#selBase").val();
 					var quote = $("#selQuote").val();
@@ -45,8 +52,14 @@
 						alert("You have chosen the same currency");
 					else
 					{
-						var url = "https://www.exchange-rates.org/history/" + base + "/" + quote + "/T";
-						window.location.replace(url);
+                    			    $.ajax({
+			                            type: "POST",
+							url: "admin/OtherForex.php",
+							data: "base=" + base + "&quote=" + quote,
+							success: function(result) {
+			                                	$("#divOtherForex").text(result);
+                        			    	}
+	                       			});
 					}
 				});
 			});
@@ -63,13 +76,16 @@
 		<a href="https://twitter.com/tzefi2?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-size="large" data-show-screen-name="false" data-show-count="false">Follow @tzefi2</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 		<br>
 		<div class="heading" style="padding-top:7px;">
-			Computerized <span style="border:2px solid #0F1C46; border-radius:3px; padding:3px;">predictions</span> for 
+			Computerized <span style="border:2px solid #0F1C46; border-radius:3px; padding:3px;">predictions</span> for
 			<?php
 				$NYdate = new DateTime("now", new DateTimeZone('America/New_York') );
 				echo $NYdate->format("l, F jS, Y");
 			?>
 			<div style="font-size:12px; font-style: italic; padding-top:5px;">
 				Disclaimer: This site is for informational use only. Our algorithms are not prophetic. Be careful if investing financially.
+			</div>
+			<div style="font-size:14px; color:red; font-weight:bold; padding-top:7px;">
+				Due to the Coronovirus, the NBA season has been suspended
 			</div>
 		</div>
 		<br>
@@ -106,7 +122,7 @@
 			from games g
 				inner join teams away on away.code = g.AwayTeam and away.league = '$league'
 				inner join teams home on home.code = g.HomeTeam and home.league = '$league'
-			where g.GameDate = curdate() and g.GameType <> '--' and g.league = '$league'; ";
+			where g.GameDate = curdate() and g.GameType not in ('CV', '--') and g.league = '$league'; ";
 		drawGameHTML($conn, $GamesSQL, $league);
 	}
 
@@ -223,19 +239,19 @@
                                 case "USD/JPY":
                                         $nickname = "Gopher";
                                         break;
-				case "GBP/USD":
+								case "GBP/USD":
                                         $nickname = "Cable";
                                         break;
-				case "USD/CHF":
+								case "USD/CHF":
                                         $nickname = "Swissie";
                                         break;
-				case "AUD/USD":
+								case "AUD/USD":
                                         $nickname = "Aussie";
                                         break;
-				case "USD/CAD":
+								case "USD/CAD":
                                         $nickname = "Loonie";
                                         break;
-				case "NZD/USD":
+								case "NZD/USD":
                                         $nickname = "Kiwi";
                                         break;
 			}
@@ -245,26 +261,42 @@
 				$HTML .= "<tr> ";
 			}
 			$HTML .= "<td class='game'>";
-			$HTML .= "<table style='width:100%;'>";
-			$HTML .= "<tr> <td class='team'>".$row['base']."/".$row['quote'];
-			$HTML .= "<span class='team' style='font-style:italic;'>(".$nickname.") </span> </td> </tr>";
-			$HTML .= "<tr> <td class='team";
-			if ($row["UpDown"] == "UP")
-				$HTML .= " winner";
-			$HTML .= "'>".$row['rate']." &nbsp; "; //<img src='images/".$row['UpDown'].".png'></td>";
-			$HTML .= ($row["UpDown"] == "UP") ? "&uarr;" : "&darr;";
-			$HTML .= "</td> </tr>";
-			$HTML .= "</table>";
+			$HTML .= " <table>";
+			$HTML .= "  <tr>";
+			$HTML .= "   <td>";
+			$HTML .= "    <img class='flag' src='logos/flags/".$row["base"].".png'> <br>";
+			$HTML .= "    <img class='flag' src='logos/flags/".$row["quote"].".png'>";
+			$HTML .= "   </td>";
+			$HTML .= "   <td>";
+			$HTML .= "    <table style='width:100%;'>";
+			$HTML .= "     <tr>";
+			$HTML .= "      <td class='team'>".$row['base']."/".$row['quote'];
+			$HTML .= "       <span class='team' style='font-style:italic;'>(".$nickname.") </span>";
+			$HTML .= "      </td>";
+			$HTML .= "     </tr>";
+			$HTML .= "     <tr>";
+			$HTML .= "      <td class='team" . (($row["UpDown"] == "UP") ? " winner" : "") . "'>";
+			$HTML .=         $row["rate"] . " &nbsp;";
+			$HTML .=         ($row["UpDown"] == "UP") ? "&uarr;" : "&darr;";
+			$HTML .= "      </td>";
+			$HTML .= "     </tr>";
+			$HTML .= "    </table>";
+			$HTML .= "   </td>";
+			$HTML .= "  </tr>";
+			$HTML .= " </table>";
 			$HTML .= "</td>";
+
 			if ($counter % 5 == 0 && $counter > 1)
 				$HTML .= "</tr> ";
 			$counter++;
 		}
-		$HTML .= "</tr> <tr> <td class='game team'> Others <br>";
+		$HTML .= "<td class='game team'> Others <br>";
 		$HTML .= AddAllForex($conn, 'Base');
 		$HTML .= AddAllForex($conn, 'Quote');
-		$HTML .= "<button id='btnGetPick'>Get Prediction</button> </td> </tr>";
-		$HTML .= "</table> </div>";
+		$HTML .= "<img class='image' id='imgSwitch' src='images/switch.png'> &nbsp;";
+		$HTML .= "<img class='image' id='btnGetPick' src='images/go.png'> &nbsp;";
+		$HTML .= "<span id='divOtherForex'>";
+		$HTML .= "<td> </table> </div>";
 		echo $HTML;
 		if ($GLOBALS['numDisplayedDivs'] == 1)
 			echo "<script> $('#tabForex').addClass('activeTab'); </script> ";
@@ -280,20 +312,6 @@
 		return $HTML;
 	}
 ?>
-	<br>
-
-	<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-	<!-- tzefi -->
-	<ins class="adsbygoogle"
-	     style="display:block"
-	     data-ad-client="ca-pub-9172347417963561"
-	     data-ad-slot="2673687963"
-	     data-ad-format="auto"
-	     data-full-width-responsive="true"></ins>
-	<script>
-	     (adsbygoogle = window.adsbygoogle || []).push({});
-	</script>
-
 	</body>
 </html>
 

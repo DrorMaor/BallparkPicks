@@ -30,6 +30,9 @@
 	padding:3px;
 	border:1px solid #fafbfc;
 }
+.image {
+	cursor:pointer;
+}
 .activeTab1 {
 	border: 1px solid #0F1C46;
 	border-width: 1px 1px 0 1px;

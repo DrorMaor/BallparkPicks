@@ -1,6 +1,6 @@
 
 <?php
-	ini_set('display_errors', 1); ini_set('display_startup_errors', 1); error_reporting(E_ALL);
+//	ini_set('display_errors', 1); ini_set('display_startup_errors', 1); error_reporting(E_ALL);
 
 	include("../DbConn.php");
 	$pairs = array("EUR/USD", "USD/JPY", "GBP/USD", "AUD/USD", "USD/CHF", "NZD/USD", "USD/CAD");
@@ -21,6 +21,7 @@
 			$change += $forex[$i] - $forex[$i-1] ;
 		$rate = [];
 		$rate[0] = end($forex) + $change / $i;
+		$rate[0] = round($rate[0], 5);
 		$rate[1] = ($change > 0) ? "UP" : "DOWN";
 		return $rate;
 	}
