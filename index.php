@@ -85,7 +85,7 @@
 				Disclaimer: This site is for informational use only. Our algorithms are not prophetic. Be careful if investing financially.
 			</div>
 			<div style="font-size:14px; color:red; font-weight:bold; padding-top:7px;">
-				Due to the Coronovirus, the NBA season has been suspended
+				Due to the Coronovirus, both the NHL and NBA seasons have been suspended
 			</div>
 		</div>
 		<br>
