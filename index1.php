@@ -290,11 +290,11 @@
 				$HTML .= "</tr> ";
 			$counter++;
 		}
-		$HTML .= "<td class='game team'> Others <br>";
+		$HTML .= "<td class='game team'>";
 		$HTML .= AddAllForex($conn, 'Base');
 		$HTML .= AddAllForex($conn, 'Quote');
-		$HTML .= "<img class='image' id='imgSwitch' src='images/switch.png'> &nbsp;";
-		$HTML .= "<img class='image' id='btnGetPick' src='images/go.png'> &nbsp;";
+		$HTML .= "<img class='image' id='imgSwitch' src='images/switch.png' alt='Switch Currencies'> &nbsp;";
+		$HTML .= "<img class='image' id='btnGetPick' src='images/go.png' alt='Get Prediction'> &nbsp;";
 		$HTML .= "<span id='divOtherForex'>";
 		$HTML .= "<td> </table> </div>";
 		echo $HTML;

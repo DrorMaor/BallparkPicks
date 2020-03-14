@@ -14,9 +14,8 @@
 
 			gtag('config', 'UA-20157082-8');
 		</script>
-		<!--
 		<script data-ad-client="ca-pub-9172347417963561" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-		-->
+
 		<title>Tzefi - Accurate Predictions</title>
 		<link rel="shortcut icon" href="favicon.ico" />
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -36,6 +35,34 @@
 			        tab += ">" + title + "</tab> ";
 			        $("#tabs").append(tab);
 			}
+
+			$(document).ready(function()
+			{
+				$("#imgSwitch").click(function() {
+					var base = $("#selBase").val();
+                                        var quote = $("#selQuote").val();
+					$("#selBase").val(quote);
+					$("#selQuote").val(base);
+				});
+
+				$("#btnGetPick").click(function() {
+					var base = $("#selBase").val();
+					var quote = $("#selQuote").val();
+					if (base == quote)
+						alert("You have chosen the same currency");
+					else
+					{
+                    			    $.ajax({
+			                            type: "POST",
+							url: "admin/OtherForex.php",
+							data: "base=" + base + "&quote=" + quote,
+							success: function(result) {
+			                                	$("#divOtherForex").text(result);
+                        			    	}
+	                       			});
+					}
+				});
+			});
 		</script>
 	</head>
 	<body>
@@ -209,31 +236,30 @@
 				case "EUR/USD":
 					$nickname = "Euro";
 					break;
-                case "USD/JPY":
-                    $nickname = "Gopher";
-                    break;
-				case "GBP/USD":
-                    $nickname = "Cable";
-                    break;
-				case "USD/CHF":
-                    $nickname = "Swissie";
-                    break;
-				case "AUD/USD":
-                    $nickname = "Aussie";
-                    break;
-				case "USD/CAD":
-                    $nickname = "Loonie";
-                    break;
-				case "NZD/USD":
-                    $nickname = "Kiwi";
-                    break;
+                                case "USD/JPY":
+                                        $nickname = "Gopher";
+                                        break;
+								case "GBP/USD":
+                                        $nickname = "Cable";
+                                        break;
+								case "USD/CHF":
+                                        $nickname = "Swissie";
+                                        break;
+								case "AUD/USD":
+                                        $nickname = "Aussie";
+                                        break;
+								case "USD/CAD":
+                                        $nickname = "Loonie";
+                                        break;
+								case "NZD/USD":
+                                        $nickname = "Kiwi";
+                                        break;
 			}
 			if ($counter % 4 == 0 && $counter > 0)
 			{
 				$counter = 0;
 				$HTML .= "<tr> ";
 			}
-
 			$HTML .= "<td class='game'>";
 			$HTML .= " <table>";
 			$HTML .= "  <tr>";
@@ -264,28 +290,28 @@
 				$HTML .= "</tr> ";
 			$counter++;
 		}
-		$HTML .= "</table> </div>";
+		$HTML .= "<td class='game team'>";
+		$HTML .= AddAllForex($conn, 'Base');
+		$HTML .= AddAllForex($conn, 'Quote');
+		$HTML .= "<img class='image' id='imgSwitch' src='images/switch.png' alt='Switch Currencies'> &nbsp;";
+		$HTML .= "<img class='image' id='btnGetPick' src='images/go.png' alt='Get Prediction'> &nbsp;";
+		$HTML .= "<span id='divOtherForex'>";
+		$HTML .= "<td> </table> </div>";
 		echo $HTML;
 		if ($GLOBALS['numDisplayedDivs'] == 1)
 			echo "<script> $('#tabForex').addClass('activeTab'); </script> ";
 	}
 
-
+	function AddAllForex($conn, $id)
+	{
+		$HTML = "<select id = 'sel".$id."'>";
+		$rows = $conn->query("select * from AllCurrencies order by full;");
+		while ($row = $rows->fetch_assoc())
+			$HTML .= "<option value='". $row["short"]. "'>".$row["full"]."</option>";
+		$HTML.= "</select> <br>";
+		return $HTML;
+	}
 ?>
-	<br>
-
-	<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-	<!-- tzefi -->
-	<ins class="adsbygoogle"
-	     style="display:block"
-	     data-ad-client="ca-pub-9172347417963561"
-	     data-ad-slot="2673687963"
-	     data-ad-format="auto"
-	     data-full-width-responsive="true"></ins>
-	<script>
-	     (adsbygoogle = window.adsbygoogle || []).push({});
-	</script>
-
 	</body>
 </html>
 

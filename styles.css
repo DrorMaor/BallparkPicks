@@ -32,6 +32,7 @@
 }
 .image {
 	cursor:pointer;
+	height:20px;
 }
 .activeTab1 {
 	border: 1px solid #0F1C46;
