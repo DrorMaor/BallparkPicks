@@ -30,6 +30,10 @@
 	padding:3px;
 	border:1px solid #fafbfc;
 }
+.indexLogo {
+	height:23px;
+	padding:3px;
+}
 .image {
 	cursor:pointer;
 	height:20px;

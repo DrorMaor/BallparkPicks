@@ -1,51 +1,45 @@
-
 <?php
-//	ini_set('display_errors', 1); ini_set('display_startup_errors', 1); error_reporting(E_ALL);
+//      ini_set('display_errors', 1); ini_set('display_startup_errors', 1); error_reporting(E_ALL);
 
-/*
-	include("../DbConn.php");
-	$pairs = array("EUR/USD", "USD/JPY", "GBP/USD", "AUD/USD", "USD/CHF", "NZD/USD", "USD/CAD");
-	foreach ($pairs as $pair)
-	{
-		$forex = Get_ForexData($pair);
-		$rate = PredictRate(array_reverse($forex));
-		$coins = explode("/", $pair);
-		$sql = "insert into forex (base, quote, theDate, rate, UpDown) ";
-		$sql .= "values ('" . $coins[0] . "', '" . $coins[1] . "', curdate(), " . $rate[0] . ", '" . $rate[1] . "' ); ";
-		$conn->query($sql);
+        include("../DbConn.php");
+        $indexes = array("IXIC", "DJI", "GSPC", "RUT");
+        foreach ($indexes as $index)
+        {
+                $data = Get_IndexData($index);
+                $rate = PredictRate(array_reverse($data));
+                $sql = "insert into indexes (name, theDate, rate, UpDown) ";
+                $sql .= "values ('" . $index . "', curdate(), " . $rate[0] . ", '" . $rate[1] . "'); ";
+     		$conn->query($sql);
 	}
-*/
 
-	$index = Get_IndexData();
-	$rate = PredictRate($index);
-	print_r( $rate);
-
-	function PredictRate($index)
-	{
+        function PredictRate($data)
+        {
 		$change = 0;
-		for ($i=2; $i<count($index); $i++)
-			$change += $index[$i] - $index[$i-1] ;
+		for ($i=2; $i<count($data); $i++)
+			$change += $data[$i] - $data[$i-1] ;
 		$rate = [];
-		$rate[0] = end($index) + $change / $i;
+		$rate[0] = end($data) + $change / $i;
 		$rate[0] = round($rate[0], 5);
 		$rate[1] = ($change > 0) ? "UP" : "DOWN";
 		return $rate;
-	}
+        }
 
-	function Get_IndexData()
-	{
-		$fullData = shell_exec("sudo python py/nasdaq.py");
-		print_r($fullData);
+        function Get_IndexData($index)
+        {
+		$fullData = shell_exec("sudo python py/indexes.py " . $index);
 		$fullData = str_replace("[", "", $fullData);
 		$fullData = str_replace("]", "", $fullData);
+		$fullData = str_replace("'", "", $fullData);
 		$days = explode(", ", $fullData);
-		$counter = 0;
-		$index = [];
+		$data = [];
 		foreach ($days as $day)
-			array_push($index, $day);
+			array_push($data, $day);
 
-		return $index;
-	}
+		return $data;
+        }
 
-//	$conn->close();
+	$conn->close();
 ?>
+
+
+

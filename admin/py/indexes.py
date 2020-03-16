@@ -5,14 +5,10 @@ import datetime
 import urllib
 import sys
 
-url = "https://finance.yahoo.com/quote/%5EIXIC/history/"
+url = "https://finance.yahoo.com/quote/%5E" + sys.argv[1] + "/history/"
 #print url
 page = urllib.urlopen(url).read()
 
-"""
-with open ("nasdaq.txt", "r") as file:
-    page = file.read().replace('\n', '')
-"""
 
 soup = BeautifulSoup(page, 'lxml')
 rows = soup.findAll("span")
