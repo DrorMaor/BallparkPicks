@@ -85,7 +85,7 @@
 				Disclaimer: This site is for informational use only. Our algorithms are not prophetic. Be careful if investing financially.
 			</div>
 			<div style="font-size:14px; color:red; font-weight:bold; padding-top:7px;">
-				Due to the Coronovirus, both the NHL and NBA seasons have been suspended
+				Due to the Coronovirus, both the NBA and NHL seasons have been suspended
 			</div>
 		</div>
 		<br>
@@ -127,6 +127,7 @@
 	}
 
 	drawForexHTML($conn);
+	drawIndexesHTML($conn);
 
 	$conn->close();
 
@@ -230,31 +231,6 @@
 		$rows = array_reverse($rows, true);
 		foreach ($rows as $row)
 		{
-			$nickname = "";
-			switch ($row["base"]."/".$row["quote"])
-			{
-				case "EUR/USD":
-					$nickname = "Euro";
-					break;
-                                case "USD/JPY":
-                                        $nickname = "Gopher";
-                                        break;
-								case "GBP/USD":
-                                        $nickname = "Cable";
-                                        break;
-								case "USD/CHF":
-                                        $nickname = "Swissie";
-                                        break;
-								case "AUD/USD":
-                                        $nickname = "Aussie";
-                                        break;
-								case "USD/CAD":
-                                        $nickname = "Loonie";
-                                        break;
-								case "NZD/USD":
-                                        $nickname = "Kiwi";
-                                        break;
-			}
 			if ($counter % 4 == 0 && $counter > 0)
 			{
 				$counter = 0;
@@ -270,9 +246,7 @@
 			$HTML .= "   <td>";
 			$HTML .= "    <table style='width:100%;'>";
 			$HTML .= "     <tr>";
-			$HTML .= "      <td class='team'>".$row['base']."/".$row['quote'];
-			$HTML .= "       <span class='team' style='font-style:italic;'>(".$nickname.") </span>";
-			$HTML .= "      </td>";
+			$HTML .= "      <td class='team'>".$row['base']."/".$row['quote']."</td>";
 			$HTML .= "     </tr>";
 			$HTML .= "     <tr>";
 			$HTML .= "      <td class='team" . (($row["UpDown"] == "UP") ? " winner" : "") . "'>";
@@ -304,13 +278,81 @@
 
 	function AddAllForex($conn, $id)
 	{
-		$HTML = "<select id = 'sel".$id."'>";
+		$HTML = "<select style='max-width:150px;' id = 'sel".$id."'>";
 		$rows = $conn->query("select * from AllCurrencies order by full;");
 		while ($row = $rows->fetch_assoc())
 			$HTML .= "<option value='". $row["short"]. "'>".$row["full"]."</option>";
 		$HTML.= "</select> <br>";
 		return $HTML;
 	}
+
+
+
+
+        function drawIndexesHTML($conn)
+        {
+		$sql  = "select t.name name, i.name code, i.rate, i.UpDown ";
+		$sql .= "from indexes i ";
+		$sql .= " inner join terms t on t.code = i.name ";
+		$sql .= "order by i.id desc limit 4; ";
+                $SQL = $conn->query($sql); // this will always show the last set of indexes
+                echo "<script> appendTab('Indexes'); </script>";
+                $GLOBALS['numDisplayedDivs'] ++ ;
+
+                $counter = 0;
+                $HTML = "<div class='tabContent' id='Indexes' ";
+                if ($GLOBALS['numDisplayedDivs'] == 1)
+                        $HTML.="style='display:inline;'";
+                else
+                        $HTML.="style='display:none;'";
+                $HTML .= ">";
+
+                $HTML .= "<table>";
+                while ($row = $SQL->fetch_assoc())
+                        $rows[] = $row;
+                $rows = array_reverse($rows, true);
+                foreach ($rows as $row)
+                {
+                        if ($counter % 4 == 0 && $counter > 0)
+                        {
+                                $counter = 0;
+                                $HTML .= "<tr> ";
+                        }
+                        $HTML .= "<td class='game'>";
+                        $HTML .= " <table>";
+                        $HTML .= "  <tr>";
+                        $HTML .= "   <td>";
+                        $HTML .= "    <table style='width:100%;'>";
+                        $HTML .= "     <tr>";
+                        $HTML .= "      <td class='team'>";
+			$HTML .= "       <img src='logos/indexes/".$row['code'].".png' class='indexLogo'>";
+			$HTML .= "       <br>".$row['name'];
+			$HTML .= "      </td>";
+                        $HTML .= "     </tr>";
+                        $HTML .= "     <tr>";
+                        $HTML .= "      <td class='team" . (($row["UpDown"] == "UP") ? " winner" : "") . "'>";
+                        $HTML .=         $row["rate"] . " &nbsp;";
+                        $HTML .=         ($row["UpDown"] == "UP") ? "&uarr;" : "&darr;";
+                        $HTML .= "      </td>";
+                        $HTML .= "     </tr>";
+                        $HTML .= "    </table>";
+                        $HTML .= "   </td>";
+                        $HTML .= "  </tr>";
+                        $HTML .= " </table>";
+                        $HTML .= "</td>";
+
+                        if ($counter % 5 == 0 && $counter > 1)
+                                $HTML .= "</tr> ";
+                        $counter++;
+                }
+                $HTML .= "</table> </div>";
+                echo $HTML;
+                if ($GLOBALS['numDisplayedDivs'] == 1)
+                        echo "<script> $('#tabIndexes').addClass('activeTab'); </script> ";
+        }
+
+
+
 ?>
 	</body>
 </html>

@@ -326,7 +326,7 @@
                         $HTML .= "     <tr>";
                         $HTML .= "      <td class='team'>";
 			$HTML .= "       <img src='logos/indexes/".$row['code'].".png' class='indexLogo'>";
-			$HTML .= "       &nbsp;".$row['name'];
+			$HTML .= "       <br>".$row['name'];
 			$HTML .= "      </td>";
                         $HTML .= "     </tr>";
                         $HTML .= "     <tr>";

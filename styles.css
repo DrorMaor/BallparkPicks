@@ -28,11 +28,10 @@
 .flag {
 	height:15px;
 	padding:3px;
-	border:1px solid #fafbfc;
 }
 .indexLogo {
-	height:23px;
-	padding:3px;
+	height: 23px;
+	padding-bottom: 10px;
 }
 .image {
 	cursor:pointer;
