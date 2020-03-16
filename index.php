@@ -85,7 +85,7 @@
 				Disclaimer: This site is for informational use only. Our algorithms are not prophetic. Be careful if investing financially.
 			</div>
 			<div style="font-size:14px; color:red; font-weight:bold; padding-top:7px;">
-				Due to the Coronovirus, both the NBA and NHL seasons have been suspended
+				Due to the Coronovirus, both the NBA and NHL seasons have been suspended (as well as the beginning of the MLB season)
 			</div>
 		</div>
 		<br>
@@ -126,8 +126,8 @@
 		drawGameHTML($conn, $GamesSQL, $league);
 	}
 
-	drawForexHTML($conn);
 	drawIndexesHTML($conn);
+	drawForexHTML($conn);
 
 	$conn->close();
 

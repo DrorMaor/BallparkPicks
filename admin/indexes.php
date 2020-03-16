@@ -2,7 +2,7 @@
 //      ini_set('display_errors', 1); ini_set('display_startup_errors', 1); error_reporting(E_ALL);
 
         include("../DbConn.php");
-        $indexes = array("IXIC", "DJI", "GSPC", "RUT");
+        $indexes = array("DJI", "IXIC", "GSPC", "RUT");  // they will be shown in reverse order
         foreach ($indexes as $index)
         {
                 $data = Get_IndexData($index);
