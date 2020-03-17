@@ -128,6 +128,7 @@
 
 	drawIndexesHTML($conn);
 	drawForexHTML($conn);
+	drawMetalsHTML($conn);
 
 	$conn->close();
 
@@ -350,7 +351,65 @@
                 if ($GLOBALS['numDisplayedDivs'] == 1)
                         echo "<script> $('#tabIndexes').addClass('activeTab'); </script> ";
         }
+		
+	function drawMetalsHTML($conn)
+	{
+		$sql  = "select t.name name, i.name code, i.rate, i.UpDown ";
+		$sql .= "from metals i ";
+		$sql .= " inner join terms t on t.code = i.name ";
+		$sql .= "order by i.id desc limit 4; ";
+		$SQL = $conn->query($sql); // this will always show the last set of metals
+		echo "<script> appendTab('Metals'); </script>";
+		$GLOBALS['numDisplayedDivs'] ++ ;
 
+		$counter = 0;
+		$HTML = "<div class='tabContent' id='Metals' ";
+		if ($GLOBALS['numDisplayedDivs'] == 1)
+			$HTML.="style='display:inline;'";
+		else
+			$HTML.="style='display:none;'";
+		$HTML .= ">";
+
+		$HTML .= "<table>";
+		while ($row = $SQL->fetch_assoc())
+			$rows[] = $row;
+		$rows = array_reverse($rows, true);
+		foreach ($rows as $row)
+		{
+			if ($counter % 4 == 0 && $counter > 0)
+			{
+				$counter = 0;
+				$HTML .= "<tr> ";
+			}
+			$HTML .= "<td class='game'>";
+			$HTML .= " <table>";
+			$HTML .= "  <tr>";
+			$HTML .= "   <td>";
+			$HTML .= "    <table style='width:100%;'>";
+			$HTML .= "     <tr>";
+			$HTML .= "      <td class='team'>".$row['name']."</td>";
+			$HTML .= "     </tr>";
+			$HTML .= "     <tr>";
+			$HTML .= "      <td class='team" . (($row["UpDown"] == "UP") ? " winner" : "") . "'>";
+			$HTML .=         $row["rate"] . " &nbsp;";
+			$HTML .=         ($row["UpDown"] == "UP") ? "&uarr;" : "&darr;";
+			$HTML .= "      </td>";
+			$HTML .= "     </tr>";
+			$HTML .= "    </table>";
+			$HTML .= "   </td>";
+			$HTML .= "  </tr>";
+			$HTML .= " </table>";
+			$HTML .= "</td>";
+
+			if ($counter % 5 == 0 && $counter > 1)
+				$HTML .= "</tr> ";
+			$counter++;
+		}
+		$HTML .= "</table> </div>";
+		echo $HTML;
+		if ($GLOBALS['numDisplayedDivs'] == 1)
+			echo "<script> $('#tabMetals').addClass('activeTab'); </script> ";
+	}
 
 
 ?>
