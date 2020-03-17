@@ -351,7 +351,8 @@
                 if ($GLOBALS['numDisplayedDivs'] == 1)
                         echo "<script> $('#tabIndexes').addClass('activeTab'); </script> ";
         }
-		
+
+
 	function drawMetalsHTML($conn)
 	{
 		$sql  = "select t.name name, i.name code, i.rate, i.UpDown ";
@@ -387,11 +388,11 @@
 			$HTML .= "   <td>";
 			$HTML .= "    <table style='width:100%;'>";
 			$HTML .= "     <tr>";
-			$HTML .= "      <td class='team'>".$row['name']."</td>";
+			$HTML .= "      <td class='team' style='font-weight:bold; color:".$row['name']."'>".$row['name']."</td>";
 			$HTML .= "     </tr>";
 			$HTML .= "     <tr>";
 			$HTML .= "      <td class='team" . (($row["UpDown"] == "UP") ? " winner" : "") . "'>";
-			$HTML .=         $row["rate"] . " &nbsp;";
+			$HTML .= "        $" . round($row["rate"],2) . " &nbsp;";
 			$HTML .=         ($row["UpDown"] == "UP") ? "&uarr;" : "&darr;";
 			$HTML .= "      </td>";
 			$HTML .= "     </tr>";
