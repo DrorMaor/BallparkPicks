@@ -2,20 +2,24 @@
 	error_reporting(E_ALL);
 	ini_set('display_errors', 1);
 
-	include("../DbConn.php");
-	$sql = "select * from forex where theDate = curdate() limit 3;";
+	include("../../DbConn.php");
+        $sql  = "select t.name name, m.rate, m.UpDown ";
+        $sql .= "from metals m ";
+        $sql .= " inner join terms t on t.code = m.name ";
+	$sql .= "where m.theDate = curdate(); ";
+
 	$results = $conn->query($sql) or die($conn->error);
 	if ($results->num_rows >0)
 	{
 		$hashtags = "";
-		$tweet = "Here are some #forex predictions for today:\r\n\r\n";
+		$tweet = "Here are some #PreciousMetals predictions for today:\r\n\r\n";
 		while ($row = $results->fetch_assoc())
 		{
-			$tweet .= $row['base'] . "/" . $row['quote'] . ": " . $row["rate"] . " ";
+			$tweet .= $row['name'] . ": $" . round($row["rate"],2) . " ";
 			$tweet .= "(".(($row["UpDown"] == "UP") ? "+" : "-") . ")\r\n";
 		}
 		$tweet.= "\r\nThe rest can be found on https://www.tzefi.com \r\n\r\n";
-		$tweet.= "#EURUSD\r\n#USDJPY\r\n#GBPUSD\r\n#AUDUSD\r\n#USDCHF\r\n#NZDUSD\r\n#USDCAD\r\n";
+		$tweet.= "$"."gold"."$"."silver #platinum";
 
 		require_once('codebird.php');
 		$ConsumerKey = "DJ5CrbI7bEv8IZXAW7h3U219Q";

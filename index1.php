@@ -358,7 +358,7 @@
 		$sql  = "select t.name name, i.name code, i.rate, i.UpDown ";
 		$sql .= "from metals i ";
 		$sql .= " inner join terms t on t.code = i.name ";
-		$sql .= "order by i.id desc limit 4; ";
+		$sql .= "order by i.id desc limit 3; ";
 		$SQL = $conn->query($sql); // this will always show the last set of metals
 		echo "<script> appendTab('Metals'); </script>";
 		$GLOBALS['numDisplayedDivs'] ++ ;

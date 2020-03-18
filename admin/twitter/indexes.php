@@ -2,12 +2,12 @@
 	error_reporting(E_ALL);
 	ini_set('display_errors', 1);
 
-	include("../DbConn.php");
+	include("../../DbConn.php");
         $sql  = "select t.name name, i.rate, i.UpDown ";
         $sql .= "from indexes i ";
         $sql .= " inner join terms t on t.code = i.name ";
-	$sql .= "where theDate = curdate() ";
-	$sql .= " and t.code <> 'RUT'";
+	$sql .= "where i.theDate = curdate() ";
+	$sql .= " and t.code <> 'RUT'; ";
 
 	$results = $conn->query($sql) or die($conn->error);
 	if ($results->num_rows >0)
@@ -20,7 +20,7 @@
 			$tweet .= "(".(($row["UpDown"] == "UP") ? "+" : "-") . ")\r\n";
 		}
 		$tweet.= "\r\nThe rest can be found on https://www.tzefi.com \r\n\r\n";
-		$tweet.= "#DowJones\r\n#Nasdaq\r\n#SP500\r\n";
+		$tweet.= "#DowJones #Nasdaq #SP500";
 
 		require_once('codebird.php');
 		$ConsumerKey = "DJ5CrbI7bEv8IZXAW7h3U219Q";

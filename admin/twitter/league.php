@@ -2,7 +2,7 @@
 	error_reporting(E_ALL);
 	ini_set('display_errors', 1);
 
-	include("../DbConn.php");
+	include("../../DbConn.php");
 	$league = $_GET["league"];
 	$sql = "
 		select AwayTeam.name as AwayTeam, g.AwayScorePick, HomeTeam.name as HomeTeam, g.HomeScorePick from games g
@@ -30,7 +30,7 @@
 				$tweet.=" !";
 			$tweet.="\r\n\r\n";
 		}
-		$tweet.= "\r\nThe rest can be found on https://www.tzefi.com \r\n\r\n";
+		$tweet.= "\r\nThe rest can be found on https://www.tzefi.com";
 		$tweet.= $hashtags;
 
 		require_once('codebird.php');

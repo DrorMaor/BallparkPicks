@@ -2,7 +2,7 @@
 	//error_reporting(E_ALL);
 	//ini_set('display_errors', 1);
 
-	include("../DbConn.php");
+	include("../../DbConn.php");
 	// SQL for MNF & TNF (sunday is different, later on)
 	$sql = "select AwayTeam.TwitterHandle as AwayTeam, g.AwayScorePick, HomeTeam.TwitterHandle as HomeTeam, g.HomeScorePick
 		from games g
@@ -45,7 +45,7 @@
 		if ($weekday == 0)
 			$tweet.= "\r\nThe rest can be found on ";
 
-		$tweet.= "www.BallparkPicks.com";
+		$tweet.= "tzefi.com";
 
 		require_once('codebird.php');
 		$ConsumerKey = "w5BmQ5rxszPjTt5rLG4QrwFE3";
