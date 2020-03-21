@@ -1,0 +1,21 @@
+# we do everything in NY Eastern Time, and this server is 5 hours ahead
+
+# generate the picks at midnight
+1 5 * * * curl -k https://www.tzefi.com/admin/NHL.php
+2 5 * * * curl -k https://www.tzefi.com/admin/NBA.php
+3 5 * * * curl -k https://www.tzefi.com/admin/MLB.php
+4 5 * * * curl -k https://www.tzefi.com/admin/forex.php
+5 5 * * * curl -k https://www.tzefi.com/admin/indexes.php
+6 5 * * * curl -k https://www.tzefo.com/admin/metals.php
+
+# backup the database every day
+5 5 * * * /usr/bin/mysqldump -uroot tzefi > /var/www/html/admin/MySQL.sql
+
+# send auto tweets
+5 13 * * * curl -k https://www.tzefi.com/admin/twitter/league.php?league=MLB
+13 13 * * * curl -k https://www.tzefi.com/admin/twitter/league.php?league=NBA
+29 13 * * * curl -k https://www.tzefi.com/admin/twitter/league.php?league=NHL
+8 12 * * * curl -k https://www.tzefi.com/admin/twitter/indexes.php
+10 12 * * * curl -k https://www.tzefi.com/admin/twitter/forex.php
+13 14 * * * curl -k https://www.tzefi.com/admin/twitter/metals.php
+
